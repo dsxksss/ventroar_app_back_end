@@ -11,10 +11,55 @@ const app = express();
 
 //检查环境变量是否设置,如果没设置的话则强制退出程序
 //has代表是否存在于此环境变量
-if (!config.has("jwtkey")) {
-  console.log("缺少环境变量设置,请初始化环境变量再次启动服务...");
+let HASENV_ERROR_NAME = []; //缺少的环境变量名字
+let HASCONFIGF_ERROR_NAME = []; //缺少的配置文件变量名字
+const HASENV = () => {
+  if (!config.has("jwtkey")) {
+    HASENV_ERROR_NAME.push("jwtket");
+  }
+  if (!config.has("sendMailPassword")) {
+    HASENV_ERROR_NAME.push("sendMailPassword");
+  }
+  if (!config.has("runMode")) {
+    HASENV_ERROR_NAME.push("runMode");
+  }
+  const result =
+    !config.has("jwtkey") || //jwtTokenKey
+    !config.has("sendMailPassword") || //邮箱发送服务的密码
+    !config.has("runMode"); //启动模式(development and production)
+  return result;
+};
+//has代表是否存在于此环境变量
+const HASCONFIGF = () => {
+  if (!config.has("jwtkey")) {
+    HASCONFIGF_ERROR_NAME.push("jwtket");
+  }
+  if (!config.has("sendMailPassword")) {
+    HASCONFIGF_ERROR_NAME.push("sendMailPassword");
+  }
+  if (!config.has("runMode")) {
+    HASCONFIGF_ERROR_NAME.push("runMode");
+  }
+  $env: LOCAL_MAIL_PASS = "";
+  const result =
+    !config.has("sendMailConfig.sender") || //邮箱发送者名字
+    !config.has("dbConfig.debugDbConfig.host") || //debug运行环境下的host
+    !config.has("dbConfig.debugDbConfig.port") || //debug运行环境下的port
+    !config.has("dbConfig.releaseDbConfig.host") || //release运行环境下的host
+    !config.has("dbConfig.releaseDbConfig.port"); //release运0行环境下的port
+  return result;
+};
+
+if (HASENV()) {
+  console.log(`缺少所需的环境变量[${HASENV_ERROR_NAME}],请初始化环境变量再次启动服务...`);
   process.exit(1);
 }
+
+if (HASCONFIGF()) {
+  console.log(`配置文件default.json属性值[${HASCONFIGF_ERROR_NAME}],请检查配置文件再次启动服务...`);
+  process.exit(1);
+}
+
 //MongoDB数据库连接
 mongoose
   //先连接这个数据库表
@@ -28,34 +73,49 @@ mongoose
 //SM:中间件
 //数据转换成req.body的JSON
 app.use(express.json());
-
 //解决跨域问题
 app.use(cors());
 
-//检测当前环境是否为开发环境，如果是，则使用morgan日志记录
-if (app.get("env") === "development") {
-  //tiny是简单的log记录方式,这里使用的是dev记录格式
-  app.use(morgan("dev"));
-  console.log("development !,morgan starting~");
-}
-
-//导入路由模组
+/**
+ * @import RoutersFile... 导入路由模组
+ * @name signUp   注册用户、找回密码等
+ */
 app.use("/signup", signup);
 
-//读取安全keyfile
-const keyfile = {
-  key: fs.readFileSync("ventroar.xyz.key"),
-  cert: fs.readFileSync("ventroar.xyz_bundle.crt")
-};
+//环境为开发环境启动的log
+if (config.get("runMode") === "development") {
+  //tiny是简单的log记录方式,这里使用的是dev记录格式
+  app.use(morgan("dev"));
+  console.log("development!,morgan[dev] log starting~");
+  //适合本地测试用的端口(default:2547)
+  app.listen(config.get("dbConfig.debugDbConfig.port"), () => {
+    console.log(
+      `localhost Server listening at http://localhost:${config.get(
+        "dbConfig.debugDbConfig.port"
+      )}`
+    );
+  });
+}
 
-//适合本地测试用的端口
-app.listen(2547, () => {
-  console.log(`localhost Server listening at http://localhost:2547`);
-});
-
-//开启https需要安全key文件
-// https
-//   .createServer(keyfile, app)
-//   .listen(2546, () =>
-//     console.log(`Server listening at https://localhost:2546`)
-//   );
+//环境为生产环境启动的log
+if (config.get("runMode") === "production") {
+  //tiny是简单的log记录方式,这里使用的是dev记录格式
+  app.use(morgan("short"));
+  console.log("production!,morgan[short] log starting~");
+  //开启https需要安全key文件
+  //读取安全keyfile
+  const keyfile = {
+    key: fs.readFileSync("ventroar.xyz.key"),
+    cert: fs.readFileSync("ventroar.xyz_bundle.crt")
+  };
+  //适合本地测试用的端口(default:2546)
+  https
+    .createServer(keyfile, app)
+    .listen(config.get("dbConfig.releaseDbConfig.port"), () =>
+      console.log(
+        `Server listening at https://localhost:${config.get(
+          "dbConfig.releaseDbConfig.port"
+        )}`
+      )
+    );
+}

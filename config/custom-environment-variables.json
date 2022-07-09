@@ -1,3 +1,5 @@
 {
-  "jwtkey": "LOCAL_JWT_KEY"
+  "jwtkey": "LOCAL_JWT_KEY",
+  "sendMailPassword": "LOCAL_SEND_MAIL_PASSWORD",
+  "runMode": "LOCAL_RUN_MODE"
 }

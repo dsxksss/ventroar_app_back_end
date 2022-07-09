@@ -1,0 +1,15 @@
+{
+  "sendMailConfig": {
+    "sender": "ventroar.xyz@qq.com"
+  },
+  "dbConfig": {
+    "debugDbConfig": {
+      "host": "localhost",
+      "port": 2547
+    },
+    "releaseDbConfig": {
+      "host": "localhost",
+      "port": 2546
+    }
+  }
+}
