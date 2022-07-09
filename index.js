@@ -76,12 +76,6 @@ app.use(express.json());
 //解决跨域问题
 app.use(cors());
 
-/**
- * @import RoutersFile... 导入路由模组
- * @name signUp   注册用户、找回密码等
- */
-app.use("/signup", signup);
-
 //环境为开发环境启动的log
 if (config.get("runMode") === "development") {
   //tiny是简单的log记录方式,这里使用的是dev记录格式
@@ -119,3 +113,9 @@ if (config.get("runMode") === "production") {
       )
     );
 }
+
+/**
+   * @import RoutersFile... 导入路由模组
+   * @name signUp   注册用户、找回密码等
+   */
+app.use("/signup", signup);
