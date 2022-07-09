@@ -6,7 +6,7 @@ const morgan = require("morgan"); //morgan是一个记录http请求日志的中�
 const config = require("config"); //读取配置文件信息库
 const fs = require("fs"); //node自带的文件读取,这里用于https证书的读取
 const https = require("https"); //创建https监听
-const signup = require("./src/routers/post/signUp");
+const signup = require("./src/routers/signUp");
 const app = express();
 
 //检查环境变量是否设置,如果没设置的话则强制退出程序
@@ -40,7 +40,7 @@ if (app.get("env") === "development") {
 }
 
 //导入路由模组
-app.use("/signup/", signup);
+app.use("/signup", signup);
 
 //读取安全keyfile
 const keyfile = {

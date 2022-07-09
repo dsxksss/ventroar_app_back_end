@@ -1,7 +1,7 @@
 const express = require("express");
 const bcryptjs = require("bcryptjs");
-const { userCreateByTrue } = require("../../functions/validateFuntions");
-const { UserDB } = require("../../databases/userDB");
+const { userCreateByTrue } = require("../functions/validateFuntions");
+const { UserDB } = require("../databases/userDB");
 const router = express.Router();
 const PATHNAME = "/";
 
