@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
+  isValidate: {
+    type: Boolean,
+    required: true
+  },
   friends: {
     type: Array,
     required: true

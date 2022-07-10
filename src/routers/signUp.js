@@ -2,6 +2,7 @@
 const express = require("express");
 const bcryptjs = require("bcryptjs");
 const lodash = require("lodash"); //对象操作工具库
+const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const config = require("config"); //读取配置文件信息库
 
@@ -34,7 +35,8 @@ router.post(PATHNAME, async (req, res) => {
         "email",
         "friends",
         "createDate",
-        "isAdmin"
+        "isAdmin",
+        "isValidate"
       ])
     );
 
@@ -50,7 +52,7 @@ router.post(PATHNAME, async (req, res) => {
     //     res.send('密码正确')
     // })
 
-    bcryptjs.genSalt(MI, function(_err, _salt) {
+    bcryptjs.genSalt(MI, async function(_err, _salt) {
       bcryptjs.hash(req.body.password, MI, function(err, pwd) {
         if (err) return res.send("加密失败" + err);
         user.password = pwd;
@@ -59,6 +61,11 @@ router.post(PATHNAME, async (req, res) => {
 
     user.createDate = Math.round(new Date() / 1000); //用户创建时间
     user.isAdmin = false; //设置用户权限,用户是否为管理员(默认不是管理员)
+    user.isValidate = false; //设置用户验证状态,点击邮箱网址激活账号(默认未激活)
+    await user.save(); //保存用户加密数据
+    const emailToken = jwt.sign({ _id: user._id }, config.get("jwtkey")); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
+    const loginToken = user.createUserToken(); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
+    console.log(user._id);
 
     const selfEmail = nodemailer.createTransport({
       //创建发送邮箱的账户和授权码
@@ -76,29 +83,21 @@ router.post(PATHNAME, async (req, res) => {
       //配置邮箱本体发送内容
       from: config.get("sendMailConfig.sender"), //发件者
       to: req.body.email, //收件者
-      subject: `新用户["${req.body.name}"]加入VentRoar🎉[系统发送可忽略]`, //邮件标题
+      subject: `🎉验证邮箱加入VentRoar🎉`, //邮件标题
       // text:"xxxxx",
-      html: `<div>
-      <h1>用户基本信息</h1>
-      <h2>昵称:${req.body.name}</h2>
-      <h2>邮箱:${req.body.email}</h2>
-      </div>` //邮件具体内容,支持纯文本、html格式
+      html: `<div><a href="http://localhost:2547/emailValidate/${emailToken}" >点击我</a></div>` //邮件具体内容,支持纯文本、html格式
     };
-
     //开始发送
     selfEmail.sendMail(emailFrom);
-    await user.save(); //保存用户加密数据
-    const token = user.createUserToken(); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
-
     res
-      .header("x-auth-token", token)
+      .header("x-auth-token", loginToken)
       .header("access-control-expose-headers", "x-auth-token") //扩展此自定义头部给客户端访问
       .status(200)
-      .send("注册成功"); //注册成功后反馈给客户端一个头部token
+      .send({ msg: "注册成功,请前往注册邮箱验证账号" }); //注册成功后反馈给客户端一个头部token
   } catch (e) {
     res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
-      .send(`创建用户时请求超时,请检查请求内容,错误信息: ${e}`);
+      .send({ msg: `创建用户时请求超时,请检查请求内容,错误信息: ${e}` });
   }
 });
 
