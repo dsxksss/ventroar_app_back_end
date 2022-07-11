@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "set LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&& set LOCAL_JWT_KEY=dsxksss&& set LOCAL_RUN_MODE=development&& nodemon index.js",
-    "pro": "set LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&& set LOCAL_JWT_KEY=dsxksss&& set LOCAL_RUN_MODE=production&& nodemon index.js"
+    "dev": "set LOCAL_SEND_MAIL_USERNAME=ventroar.xyz@qq.com&& set LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&& set LOCAL_JWT_KEY=dsxksss&& set LOCAL_RUN_MODE=development&& nodemon index.js",
+    "pro": "set LOCAL_SEND_MAIL_USERNAME=ventroar.xyz@qq.com&& set LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&& set LOCAL_JWT_KEY=dsxksss&& set LOCAL_RUN_MODE=production&& nodemon index.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

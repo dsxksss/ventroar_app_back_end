@@ -1,4 +1,3 @@
-//验证邮箱后创建数据
 //第三方库
 const express = require("express");
 const jwt = require("jsonwebtoken");
@@ -20,9 +19,9 @@ router.get(`${PATHNAME}:emailtoken`, async (req, res) => {
         .send(`<h1>数据库不存在此账号!!!</h1>`);
     user.isValidate = true;
     user.save();
-    res.status(200).send(`<h1>邮箱验证成功</h1>`); //注册成功后反馈给客户端一个头部token
+    return res.status(200).send(`<h1>邮箱验证成功</h1>`); //注册成功后反馈给客户端一个头部token
   } catch (error) {
-    res.status(400).send("数据不正确 非法的token令牌!");
+    return res.status(400).send({ msg: "数据不正确 非法的token令牌!" });
   }
 });
 

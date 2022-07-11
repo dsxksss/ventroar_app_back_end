@@ -3,15 +3,19 @@ const express = require("express");
 const bcryptjs = require("bcryptjs");
 const lodash = require("lodash"); //对象操作工具库
 const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
 const config = require("config"); //读取配置文件信息库
 
 //本地库及全局变量
 const { userCreateValidation } = require("../functions/validateFuntions");
 const { UserDB } = require("../databases/userDB");
+const { sendEmail } = require("../functions/sendEmail");
 const router = express.Router();
 const PATHNAME = "/";
 const MI = 10;
+const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
+const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
+const RELEASE_HOST = config.get("dbConfig.releaseDbConfig.host");
+const RELEASE_PORT = config.get("dbConfig.releaseDbConfig.port");
 
 router.post(PATHNAME, async (req, res) => {
   try {
@@ -65,37 +69,44 @@ router.post(PATHNAME, async (req, res) => {
     await user.save(); //保存用户加密数据
     const emailToken = jwt.sign({ _id: user._id }, config.get("jwtkey")); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
     const loginToken = user.createUserToken(); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
-    console.log(user._id);
 
-    const selfEmail = nodemailer.createTransport({
-      //创建发送邮箱的账户和授权码
-      host: "smtp.qq.com",
-      secureConnection: true,
-      port: 465,
-      secure: true,
-      auth: {
-        user: "ventroar.xyz@qq.com",
-        pass: config.get("sendMailPassword")
-      }
-    });
+    //测试环境下发送验证邮件
+    if (config.get("runMode") === "development") {
+      sendEmail({
+        emailTo: user.email,
+        emailTitle: `🎉验证邮箱加入VentRoar🎉`,
+        emailBody: `<head>
+        <link rel="icon" href="#"/>
+      </head>
+      <div>
+        <a href="http://${DEBUG_HOST}:${DEBUG_PORT}/emailValidate/${emailToken}" >点击我</a>
+      </div>`
+      });
+    }
 
-    const emailFrom = {
-      //配置邮箱本体发送内容
-      from: config.get("sendMailConfig.sender"), //发件者
-      to: req.body.email, //收件者
-      subject: `🎉验证邮箱加入VentRoar🎉`, //邮件标题
-      // text:"xxxxx",
-      html: `<div><a href="http://localhost:2547/emailValidate/${emailToken}" >点击我</a></div>` //邮件具体内容,支持纯文本、html格式
-    };
-    //开始发送
-    selfEmail.sendMail(emailFrom);
-    res
+    //发布环境下发送验证邮件
+    if (config.get("runMode") === "production") {
+      sendEmail({
+        emailTo: user.email,
+        emailTitle: `🎉验证邮箱加入VentRoar🎉`,
+        emailBody: `
+        <head>
+          <link rel="icon" href="#"/>
+        </head>
+        <div>
+          <a href="http://${RELEASE_HOST}:${RELEASE_PORT}/emailValidate/${emailToken}" >点击我</a>
+        </div>
+        `
+      });
+    }
+
+    return res
       .header("x-auth-token", loginToken)
       .header("access-control-expose-headers", "x-auth-token") //扩展此自定义头部给客户端访问
       .status(200)
       .send({ msg: "注册成功,请前往注册邮箱验证账号" }); //注册成功后反馈给客户端一个头部token
   } catch (e) {
-    res
+    return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
       .send({ msg: `创建用户时请求超时,请检查请求内容,错误信息: ${e}` });
   }

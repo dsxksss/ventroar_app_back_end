@@ -1,6 +1,8 @@
 {
   "sendMailConfig": {
-    "sender": "ventroar.xyz@qq.com"
+    "senderName": "ventroar.xyz@qq.com",
+    "host": "smtp.qq.com",
+    "port": "465"
   },
   "dbConfig": {
     "debugDbConfig": {
@@ -8,8 +10,8 @@
       "port": 2547
     },
     "releaseDbConfig": {
-      "host": "localhost",
-      "port": 2546
+      "host": "ventroar.xyz",
+      "port": 2548
     }
   }
 }
