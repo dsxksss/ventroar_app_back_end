@@ -11,7 +11,15 @@ const PATHNAME = "/";
 router.get(`${PATHNAME}:emailtoken`, async (req, res) => {
   try {
     let token = jwt.verify(req.params.emailtoken, config.get("jwtkey"));
-    console.log(token._id);
+    const time = Math.round(new Date() / 1000);
+    console.table(token.iat);
+    if (
+      time - token.iat >=
+      1800 //1800时间戳半个小时差值
+    )
+      return res
+        .status(400) //服务器理解请求客户端的请求，但是拒绝执行此请求
+        .send(`<h1>验证链接已超时,请重新发送邮箱验证!!!</h1>`);
     let user = await UserDB.findById(token);
     if (!user)
       return res
