@@ -10,12 +10,12 @@ const { createUserValidation } = require("../functions/validateFuntions");
 const { UserDB } = require("../databases/userDB");
 const { sendEmail } = require("../functions/sendEmail");
 const router = express.Router();
-const PATHNAME = "/";
-const MI = 10;
 const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
 const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
 const RELEASE_HOST = config.get("dbConfig.releaseDbConfig.host");
 const RELEASE_PORT = config.get("dbConfig.releaseDbConfig.port");
+const PATHNAME = "/";
+const MI = 10;
 
 router.post(PATHNAME, async (req, res) => {
   try {

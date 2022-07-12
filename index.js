@@ -11,7 +11,6 @@ const https = require("https"); //创建https监听
 const signup = require("./src/routers/signUp");
 const rePassword = require("./src/routers/rePassword");
 const emailActivation = require("./src/routers/emailActivation");
-const emailRePassword = require("./src/routers/emailRePassword");
 const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
 const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
 const RELEASE_HOST = config.get("dbConfig.releaseDbConfig.host");
@@ -148,4 +147,3 @@ if (config.get("runMode") === "production") {
 app.use("/signup", signup);
 app.use("/repassword", rePassword);
 app.use("/emailactivation", emailActivation);
-app.use("/emailrepassword", emailRePassword);
