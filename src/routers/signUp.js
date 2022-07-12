@@ -73,9 +73,9 @@ router.post(PATHNAME, async (req, res) => {
     //测试环境下发送验证邮件
     if (config.get("runMode") === "development") {
       sendEmail({
-        emailTo: user.email,
-        emailTitle: `🎉验证邮箱加入VentRoar🎉`,
-        emailBody: `<head>
+        to: user.email,
+        title: `🎉验证邮箱加入VentRoar🎉`,
+        body: `<head>
         <link rel="icon" href="#"/>
       </head>
       <div>
@@ -87,9 +87,9 @@ router.post(PATHNAME, async (req, res) => {
     //发布环境下发送验证邮件
     if (config.get("runMode") === "production") {
       sendEmail({
-        emailTo: user.email,
-        emailTitle: `🎉验证邮箱加入VentRoar🎉`,
-        emailBody: `
+        to: user.email,
+        title: `🎉验证邮箱加入VentRoar🎉`,
+        body: `
         <head>
           <link rel="icon" href="#"/>
         </head>
