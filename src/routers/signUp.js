@@ -56,17 +56,17 @@ router.post(PATHNAME, async (req, res) => {
     //     res.send('密码正确')
     // })
 
-    bcryptjs.genSalt(MI, async function(_err, _salt) {
-      bcryptjs.hash(req.body.password, MI, function(err, pwd) {
-        if (err) return res.send("加密失败" + err);
-        user.password = pwd;
+    bcryptjs.genSalt(MI, function(err, salt) {
+      bcryptjs.hash(req.body.password, salt, async function(err, hash) {
+        if (err) return res.status(400).send("用户信息加密失败,请重新注册" + err);
+        user.password = hash;
+        await user.save(); //保存用户加密数据
       });
     });
 
     user.createDate = Math.round(new Date() / 1000); //用户创建时间
     user.isAdmin = false; //设置用户权限,用户是否为管理员(默认不是管理员)
     user.isValidate = false; //设置用户验证状态,点击邮箱网址激活账号(默认未激活)
-    await user.save(); //保存用户加密数据
     const emailToken = jwt.sign({ _id: user._id }, config.get("jwtkey")); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
     const loginToken = user.createUserToken(); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
 
