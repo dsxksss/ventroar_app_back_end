@@ -24,12 +24,12 @@ router.post(PATHNAME, async (req, res) => {
     if (error)
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
-        .send(`客户端传入的注册信息格式不正确 错误信息: ${error.details[0].message}`);
+        .send({ msg: `客户端传入的注册信息格式不正确 错误信息: ${error.details[0].message}` });
     let user = await UserDB.findOne({ email: req.body.email });
     if (user)
       return res
         .status(403) //服务器理解请求客户端的请求，但是拒绝执行此请求
-        .send("数据库已存在相同邮箱,请直接使用账号密码登入,或更换邮箱");
+        .send({ msg: "数据库已存在相同邮箱,请直接使用账号密码登入,或更换邮箱" });
 
     //确认无误后创建数据
     user = new UserDB(
