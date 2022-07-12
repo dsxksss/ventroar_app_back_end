@@ -79,7 +79,7 @@ router.post(PATHNAME, async (req, res) => {
         <link rel="icon" href="#"/>
       </head>
       <div>
-        <a href="http://${DEBUG_HOST}:${DEBUG_PORT}/emailValidate/${emailToken}" >点击我</a>
+        <a href="http://${DEBUG_HOST}:${DEBUG_PORT}/emailActivation/${emailToken}" >点击我</a>
       </div>`
       });
     }
@@ -94,7 +94,7 @@ router.post(PATHNAME, async (req, res) => {
           <link rel="icon" href="#"/>
         </head>
         <div>
-          <a href="http://${RELEASE_HOST}:${RELEASE_PORT}/emailValidate/${emailToken}" >点击我</a>
+          <a href="http://${RELEASE_HOST}:${RELEASE_PORT}/emailActivation/${emailToken}" >点击我</a>
         </div>
         `
       });

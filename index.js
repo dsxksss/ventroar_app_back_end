@@ -9,7 +9,7 @@ const https = require("https"); //创建https监听
 
 //本地库及全局变量
 const signup = require("./src/routers/signUp");
-const emailValidate = require("./src/routers/emailValidate");
+const emailActivation = require("./src/routers/emailActivation");
 const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
 const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
 const RELEASE_HOST = config.get("dbConfig.releaseDbConfig.host");
@@ -139,4 +139,4 @@ if (config.get("runMode") === "production") {
    * @name signUp   注册用户、找回密码等
    */
 app.use("/signup", signup);
-app.use("/emailValidate", emailValidate);
+app.use("/emailActivation", emailActivation);
