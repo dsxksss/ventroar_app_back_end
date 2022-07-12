@@ -12,4 +12,13 @@ const createUserValidation = data => {
   return schema.validate(data);
 };
 
+const signInValidation = data => {
+  const schema = Joi.object({
+    account: Joi.string().min(3).max(20).required(),
+    password: Joi.string().min(8).max(20).required()
+  });
+  return schema.validate(data);
+};
+
 exports.createUserValidation = createUserValidation;
+exports.signInValidation = signInValidation;
