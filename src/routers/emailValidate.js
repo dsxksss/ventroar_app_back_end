@@ -1,7 +1,11 @@
-//第三方库
+/**
+ * @import express
+ * @import jsonwebtoken jwtToken验证
+ * @import config 配置信息读取
+ */
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const config = require("config"); //读取配置文件信息库
+const config = require("config");
 
 //本地库及全局变量
 const { UserDB } = require("../databases/userDB");
