@@ -56,7 +56,7 @@ router.post(PATHNAME, async (req, res) => {
     //     res.send('密码正确')
     // })
 
-    bcryptjs.genSalt(MI, function(err, salt) {
+    bcryptjs.genSalt(MI, function(_err, salt) {
       bcryptjs.hash(req.body.password, salt, async function(err, hash) {
         if (err) return res.status(400).send("用户信息加密失败,请重新注册" + err);
         user.password = hash;
