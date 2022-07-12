@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const config = require("config"); //读取配置文件信息库
 
 //本地库及全局变量
-const { userCreateValidation } = require("../functions/validateFuntions");
+const { createUserValidation } = require("../functions/validateFuntions");
 const { UserDB } = require("../databases/userDB");
 const { sendEmail } = require("../functions/sendEmail");
 const router = express.Router();
@@ -20,7 +20,7 @@ const RELEASE_PORT = config.get("dbConfig.releaseDbConfig.port");
 router.post(PATHNAME, async (req, res) => {
   try {
     //接受数据并且先用现有模型验证格式是否正确;
-    const { error } = userCreateValidation(req.body);
+    const { error } = createUserValidation(req.body);
     if (error)
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
@@ -29,7 +29,7 @@ router.post(PATHNAME, async (req, res) => {
     if (user)
       return res
         .status(403) //服务器理解请求客户端的请求，但是拒绝执行此请求
-        .send("数据库已存在相同邮箱,请你找回密码,或更换邮箱");
+        .send("数据库已存在相同邮箱,请直接使用账号密码登入,或更换邮箱");
 
     //确认无误后创建数据
     user = new UserDB(

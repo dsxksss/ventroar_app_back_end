@@ -1,7 +1,7 @@
 const Joi = require("joi"); //导入数据验证库
 
 // FUNCTION: 封装的数据验证函数;
-const userCreateValidation = data => {
+const createUserValidation = data => {
   //创建前端传来的标准数据模版格式
   const schema = Joi.object({
     name: Joi.string().min(3).max(8).required(),
@@ -12,4 +12,4 @@ const userCreateValidation = data => {
   return schema.validate(data);
 };
 
-exports.userCreateValidation = userCreateValidation;
+exports.createUserValidation = createUserValidation;
