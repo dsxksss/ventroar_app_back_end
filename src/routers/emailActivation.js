@@ -31,7 +31,7 @@ router.get(`${PATHNAME}:emailtoken`, async (req, res) => {
         .status(400) //服务器理解请求客户端的请求，但是拒绝执行此请求
         .send(`<h1>用户账号已经激活,请勿重复验证!!!</h1>`);
     user.isValidate = true;
-    user.save();
+    await user.save();
     return res.status(200).send(`<h1>账户激活成功,请返回登录</h1>`); //注册成功后反馈给客户端一个头部token
   } catch (error) {
     return res.status(400).send(`<h1>非法的邮箱验证链接,请检查后重试!!!</h1>`);

@@ -67,7 +67,7 @@ router.post(PATHNAME, async (req, res) => {
     user.createDate = Math.round(new Date() / 1000); //用户创建时间
     user.isAdmin = false; //设置用户权限,用户是否为管理员(默认不是管理员)
     user.isValidate = false; //设置用户验证状态,点击邮箱网址激活账号(默认未激活)
-    const emailToken = jwt.sign({ _id: user._id }, config.get("jwtkey")); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
+    const emailToken = jwt.sign({ _id: user._id }, config.get("jwtkey"));
     const loginToken = user.createUserToken(); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
 
     //测试环境下发送验证邮件
@@ -79,7 +79,7 @@ router.post(PATHNAME, async (req, res) => {
         <link rel="icon" href="#"/>
       </head>
       <div>
-        <a href="http://${DEBUG_HOST}:${DEBUG_PORT}/emailActivation/${emailToken}" >点击我</a>
+        <a href="http://${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我</a>
       </div>`
       });
     }
@@ -94,7 +94,7 @@ router.post(PATHNAME, async (req, res) => {
           <link rel="icon" href="#"/>
         </head>
         <div>
-          <a href="http://${RELEASE_HOST}:${RELEASE_PORT}/emailActivation/${emailToken}" >点击我</a>
+          <a href="http://${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我</a>
         </div>
         `
       });

@@ -9,7 +9,9 @@ const https = require("https"); //创建https监听
 
 //本地库及全局变量
 const signup = require("./src/routers/signUp");
+const rePassword = require("./src/routers/rePassword");
 const emailActivation = require("./src/routers/emailActivation");
+const emailRePassword = require("./src/routers/emailRePassword");
 const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
 const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
 const RELEASE_HOST = config.get("dbConfig.releaseDbConfig.host");
@@ -135,8 +137,15 @@ if (config.get("runMode") === "production") {
 }
 
 /**
-   * @import RoutersFile... 导入路由模组
-   * @name signUp   注册用户、找回密码等
-   */
+  * 注册路由模组
+  * @import RoutersFile... 
+  * api格式均为全小写字母
+  * @router signup   注册用户、找回密码等
+  * @router repassword   
+  * @router emailactivation   
+  * @router emailrePassword   
+  */
 app.use("/signup", signup);
-app.use("/emailActivation", emailActivation);
+app.use("/repassword", rePassword);
+app.use("/emailactivation", emailActivation);
+app.use("/emailrepassword", emailRePassword);
