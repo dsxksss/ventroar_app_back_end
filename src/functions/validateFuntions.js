@@ -20,5 +20,12 @@ const signInValidation = data => {
   return schema.validate(data);
 };
 
+const rePasswordValidation = data => {
+  const schema = Joi.object({
+    email: Joi.string().email().max(20).required()
+  });
+  return schema.validate(data);
+};
 exports.createUserValidation = createUserValidation;
 exports.signInValidation = signInValidation;
+exports.rePasswordValidation = rePasswordValidation;
