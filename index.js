@@ -7,10 +7,7 @@ const config = require("config"); //读取配置文件信息库
 const fs = require("fs"); //node自带的文件读取,这里用于https证书的读取
 const https = require("https"); //创建https监听
 
-//本地库及全局变量
-const signup = require("./src/routers/signUp");
-const rePassword = require("./src/routers/rePassword");
-const emailActivation = require("./src/routers/emailActivation");
+//全局变量
 const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
 const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
 const RELEASE_HOST = config.get("dbConfig.releaseDbConfig.host");
@@ -136,6 +133,12 @@ if (config.get("runMode") === "production") {
 }
 
 //导入注册路由
-app.use("/signup", signup);
+const signUp = require("./src/routers/signUp");
+const rePassword = require("./src/routers/rePassword");
+const emailActivation = require("./src/routers/emailActivation");
+const sendActivationEmail = require("./src/routers/sendActivationEmail");
+
+app.use("/signup", signUp);
 app.use("/repassword", rePassword);
 app.use("/emailactivation", emailActivation);
+app.use("/sendactivationemail", sendActivationEmail);
