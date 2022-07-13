@@ -1,6 +1,7 @@
 //第三方库
 const express = require("express");
 const bcryptjs = require("bcryptjs");
+const lodash = require("lodash"); //对象操作工具库
 
 //本地库及全局变量
 const { signInValidation } = require("../functions/validateFuntions");
@@ -53,7 +54,21 @@ router.post(PATHNAME, async (req, res) => {
       .header("x-auth-token", loginToken)
       .header("access-control-expose-headers", "x-auth-token") //扩展此自定义头部给客户端访问
       .status(200)
-      .send({ msg: "登录成功" }); //注册成功后反馈给客户端一个头部token.status(200).send({ msg: "登录成功" });
+      .send({
+        msg: "登录成功",
+        //这里之所以使用pick,是因为上面用到了用户的加密密码,需要比对原密码和传递密码
+        //但是因为得返回一些数据给客户端,所以这里用了过滤了某些不需要交给客户端的数据
+        ...lodash.pick(user, [
+          "_id",
+          "name",
+          "email",
+          "friends",
+          "createDate",
+          "isLogin",
+          "isAdmin",
+          "isValidate"
+        ])
+      }); //注册成功后反馈给客户端一个对象，里面包含了用户的一些基本数据
   });
 });
 
