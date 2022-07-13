@@ -34,23 +34,28 @@ router.post(PATHNAME, async (req, res) => {
     return res
       .status(404) //服务器理解请求客户端的请求，但是拒绝执行此请求
       .send({ msg: "数据库数据库没找到此邮箱,请检查邮箱是否错误!" });
-  const emailToken = jwt.sign({ _id: user._id }, config.get("jwtkey"));
+  const emailToken = jwt.sign(
+    {
+      _id: user._id, //用户id
+      exp: Math.floor(Date.now() / 1000) + 60 * 30 //token失效时间为三十分钟
+    },
+    config.get("jwtkey")
+  );
   //测试环境下发送验证邮件
   if (config.get("runMode") === "development") {
     sendEmail({
       to: user.email,
-      title: `📢VentRoar:验证邮箱修改密码`,
+      title: `🎉验证邮箱加入VentRoar🎉`,
       body: `
       <head>
-          <link rel="icon" href="#"/>
-        </head>
-        <div>
-            <p>VentRoar账户密码修改邮件验证提醒</p>
-            <p>您于${timeFormat()}发送的修改密码验证邮件</p>
-            <p>修改权限的token为:<b>${emailToken}</b></p>
-            <p>复制后返回填写修改,如不是本人务必忽略!⚠️</p>
-        </div>
-        `
+      <link rel="icon" href="#"/>
+    </head>
+    <div>
+        <p>您于${timeFormat()}发送的修改密码验证邮件</p>
+        <p>修改权限的token为:<b>${emailToken}</b></p>
+        <p><b>有效时长30分钟</b>复制后返回填写修改,如不是本人务必忽略!⚠️</p>
+    </div>
+          `
     });
   }
 
@@ -64,10 +69,9 @@ router.post(PATHNAME, async (req, res) => {
       <link rel="icon" href="#"/>
     </head>
     <div>
-        <p>VentRoar账户密码修改邮件验证提醒</p>
         <p>您于${timeFormat()}发送的修改密码验证邮件</p>
         <p>修改权限的token为:<b>${emailToken}</b></p>
-        <p>复制后返回填写修改,如不是本人务必忽略!⚠️</p>
+        <p><b>有效时长30分钟</b>复制后返回填写修改,如不是本人务必忽略!⚠️</p>
     </div>
           `
     });
@@ -86,27 +90,24 @@ router.put(`${PATHNAME}:validate`, [checkHeaderToken], async (req, res) => {
         .status(400) //客户端请求的语法错误，服务器无法理解
         .send({ msg: `密码格式不正确 错误信息: ${error.details[0].message}` });
     const token = jwt.verify(req.header("x-auth-token"), config.get("jwtkey"));
-    const time = Math.round(new Date() / 1000); //生成当前时间的时间戳
-    if (
-      time - token.iat >=
-      1800 //1800时间戳半个小时差值
-    )
-      return res
-        .status(400) //服务器理解请求客户端的请求，但是拒绝执行此请求
-        .send({ msg: `验证链接已超时,请重新发送邮箱验证!!!` });
     let user = await UserDB.findById(token._id);
+
     if (!user) return res.status(404).send({ msg: `数据库不存在此账号!!!` });
 
     bcryptjs.genSalt(MI, function(_err, salt) {
       bcryptjs.hash(req.body.password, salt, async function(err, hash) {
-        if (err) return res.status(400).send({ msg: "用户信息加密失败,请重新注册" + err });
+        if (err)
+          return res.status(400).send({ msg: `用户信息加密失败,请重新注册 error: ${err}` });
         user.password = hash;
         await user.save(); //保存用户加密数据
       });
     });
+
     return res.status(200).send({ msg: `密码修改成功,请返回登录` }); //注册成功后反馈给客户端一个头部token
   } catch (error) {
-    return res.status(400).send({ msg: `非法的邮箱验证链接,请检查后重试!!! error: ${error}` });
+    return res
+      .status(400)
+      .send({ msg: `已失效的邮箱验证链接,请检查后重试!!! error: ${error}` });
   }
 });
 

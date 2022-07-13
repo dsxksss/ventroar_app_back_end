@@ -44,11 +44,6 @@ router.post(PATHNAME, async (req, res) => {
       ])
     );
 
-    // //加密
-    // bcryptjs.hash('要加密的内容', mi, (err,pwd)=>{
-    //     if(err) return res.send('加密失败')
-    //     res.send('加密成功' + pwd)
-    // })
     // // 比对
     // bcryptjs.compare('要比对的密码','加密后的密码',(err, flag)=>{
     //     if (err) return res.send('比对失败' + err)
@@ -67,7 +62,13 @@ router.post(PATHNAME, async (req, res) => {
     user.createDate = Math.round(new Date() / 1000); //用户创建时间
     user.isAdmin = false; //设置用户权限,用户是否为管理员(默认不是管理员)
     user.isValidate = false; //设置用户验证状态,点击邮箱网址激活账号(默认未激活)
-    const emailToken = jwt.sign({ _id: user._id }, config.get("jwtkey"));
+    const emailToken = jwt.sign(
+      {
+        _id: user._id, //用户id
+        exp: Math.floor(Date.now() / 1000) + 60 * 30 //token失效时间为三十分钟
+      },
+      config.get("jwtkey")
+    );
     const loginToken = user.createUserToken(); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
 
     //测试环境下发送验证邮件
@@ -79,7 +80,8 @@ router.post(PATHNAME, async (req, res) => {
         <link rel="icon" href="#"/>
       </head>
       <div>
-        <a href="http://${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我</a>
+        <a href="http://${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
+        <p><b>有效时长30分钟</b></p>
       </div>`
       });
     }
@@ -94,7 +96,8 @@ router.post(PATHNAME, async (req, res) => {
           <link rel="icon" href="#"/>
         </head>
         <div>
-          <a href="http://${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我</a>
+          <a href="http://${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
+        <p><b>有效时长30分钟</b></p>
         </div>
         `
       });

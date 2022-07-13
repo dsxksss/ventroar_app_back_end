@@ -135,15 +135,7 @@ if (config.get("runMode") === "production") {
     );
 }
 
-/**
-  * 注册路由模组
-  * @import RoutersFile... 
-  * api格式均为全小写字母
-  * @router signup   注册用户、找回密码等
-  * @router repassword   
-  * @router emailactivation   
-  * @router emailrePassword   
-  */
+//导入注册路由
 app.use("/signup", signup);
 app.use("/repassword", rePassword);
 app.use("/emailactivation", emailActivation);
