@@ -29,7 +29,7 @@ router.post(PATHNAME, async (req, res) => {
     if (user)
       return res
         .status(403) //服务器理解请求客户端的请求，但是拒绝执行此请求
-        .send({ msg: "数据库已存在相同邮箱,请直接使用账号密码登入,或更换邮箱" });
+        .send({ msg: "数据库已存在相同邮箱,请直接使用账号密码登录,或更换邮箱" });
 
     //确认无误后创建数据
     user = new UserDB(
@@ -60,6 +60,7 @@ router.post(PATHNAME, async (req, res) => {
     });
 
     user.createDate = Math.round(new Date() / 1000); //用户创建时间
+    user.isLogin = false; //设置用户登录状态(默认未登录)
     user.isAdmin = false; //设置用户权限,用户是否为管理员(默认不是管理员)
     user.isValidate = false; //设置用户验证状态,点击邮箱网址激活账号(默认未激活)
     const emailToken = jwt.sign(
@@ -69,7 +70,6 @@ router.post(PATHNAME, async (req, res) => {
       },
       config.get("jwtkey")
     );
-    const loginToken = user.createUserToken(); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
 
     //测试环境下发送验证邮件
     if (config.get("runMode") === "development") {
@@ -103,11 +103,7 @@ router.post(PATHNAME, async (req, res) => {
       });
     }
 
-    return res
-      .header("x-auth-token", loginToken)
-      .header("access-control-expose-headers", "x-auth-token") //扩展此自定义头部给客户端访问
-      .status(200)
-      .send({ msg: "注册成功,请前往注册邮箱验证账号" }); //注册成功后反馈给客户端一个头部token
+    return res.status(202).send({ msg: "注册成功,请前往注册邮箱验证账号" }); //注册成功后反馈给客户端一个头部token
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
