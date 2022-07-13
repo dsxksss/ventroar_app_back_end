@@ -133,11 +133,13 @@ if (config.get("runMode") === "production") {
 }
 
 //导入注册路由
+const signIn = require("./src/routers/signIn");
 const signUp = require("./src/routers/signUp");
 const rePassword = require("./src/routers/rePassword");
 const emailActivation = require("./src/routers/emailActivation");
 const sendActivationEmail = require("./src/routers/sendActivationEmail");
 
+app.use("/signin", signIn);
 app.use("/signup", signUp);
 app.use("/repassword", rePassword);
 app.use("/emailactivation", emailActivation);

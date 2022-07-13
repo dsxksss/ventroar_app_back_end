@@ -1,0 +1,60 @@
+//第三方库
+const express = require("express");
+const bcryptjs = require("bcryptjs");
+
+//本地库及全局变量
+const { signInValidation } = require("../functions/validateFuntions");
+const { UserDB } = require("../databases/userDB");
+const router = express.Router();
+const PATHNAME = "/";
+
+router.post(PATHNAME, async (req, res) => {
+  //接受数据并且先用现有模型验证格式是否正确;
+  const { error } = signInValidation(req.body);
+  if (error) {
+    return res
+      .status(400) //客户端请求的语法错误，服务器无法理解
+      .send({ msg: `登录数据格式不正确 错误信息: ${error.details[0].message}` });
+  }
+  let user = null;
+  user = await UserDB.findOne({ email: req.body.account });
+  if (!user) {
+    user = await UserDB.findOne({ name: req.body.account });
+    if (!user)
+      return res
+        .status(404) //客户端请求的语法错误，服务器无法理解
+        .send({ msg: `邮箱或用户名不存在,请检查邮箱后重新登录!` });
+  }
+  if (!user.isValidate) {
+    return res
+      .status(400) //客户端请求的语法错误，服务器无法理解
+      .send({ msg: `该账号未激活,请验证邮箱激活账号!` });
+  }
+  if (user.isLogin) {
+    return res
+      .status(400) //客户端请求的语法错误，服务器无法理解
+      .send({ msg: `账号在线,请检查是否已经登录!` });
+  }
+
+  //比对数据库密码是否与提交密码正确
+  bcryptjs.compare(req.body.password, user.password, async (err, flag) => {
+    if (err)
+      return res
+        .status(400) //客户端请求的语法错误，服务器无法理解
+        .send({ msg: `比对密码时发送了意外错误! error: ${err}` });
+    if (!flag)
+      return res
+        .status(400) //客户端请求的语法错误，服务器无法理解
+        .send({ msg: `账号或密码错误,请检查后重新登录!` });
+
+    //如果提交密码正确,则返回登录token和成功状态码
+    const loginToken = user.createUserToken(); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
+    return res
+      .header("x-auth-token", loginToken)
+      .header("access-control-expose-headers", "x-auth-token") //扩展此自定义头部给客户端访问
+      .status(200)
+      .send({ msg: "登录成功" }); //注册成功后反馈给客户端一个头部token.status(200).send({ msg: "登录成功" });
+  });
+});
+
+module.exports = router;
