@@ -40,7 +40,8 @@ npm run dev
 
 | api名称                  | 路由路径                 | 作用                 | 参数                  |
 | ---------------------- | -------------------- | ------------------ | ------------------- |
-| **SignUp**             | /signup              | 注册用户(不提供激活但发送验证邮件) | name,email,password |
+| **signIn**             | /signin              | 登录账号               | account,password    |
+| **SignUp**             | /signup              | 注册账号(不提供激活但发送验证邮件) | name,email,password |
 | **EmailActivation**    | /emailactivation     | 作用于接受邮箱激活账号        | null                |
 | **RePassword**         | /repassword          | 发送修改密码的验证邮件        | email               |
 | **RePasswordValidate** | /repassword/validate | 作用于接受邮箱修改密码        | password            |
