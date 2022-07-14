@@ -80,7 +80,7 @@ router.post(PATHNAME, async (req, res) => {
         <link rel="icon" href="#"/>
       </head>
       <div>
-        <a href="http://${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
+        <a href="${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
         <p><b>有效时长30分钟</b></p>
       </div>`
       });
@@ -96,7 +96,7 @@ router.post(PATHNAME, async (req, res) => {
           <link rel="icon" href="#"/>
         </head>
         <div>
-          <a href="http://${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
+          <a href="${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
         <p><b>有效时长30分钟</b></p>
         </div>
         `

@@ -47,7 +47,7 @@ router.post(PATHNAME, async (req, res) => {
       </head>
       <div>
       <p>您于${timeFormat()}发送的账号验证邮件</p>
-        <a href="http://${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
+        <a href="${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
         <p><b>有效时长30分钟</b></p>
       </div>`
       });
@@ -64,7 +64,7 @@ router.post(PATHNAME, async (req, res) => {
         </head>
         <div>
         <p>您于${timeFormat()}发送的账号验证邮件</p>
-          <a href="http://${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
+          <a href="${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
           <p><b>有效时长30分钟</b></p>
         </div>
         `

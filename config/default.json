@@ -6,11 +6,11 @@
   },
   "dbConfig": {
     "debugDbConfig": {
-      "host": "localhost",
+      "host": "http://localhost",
       "port": 2547
     },
     "releaseDbConfig": {
-      "host": "ventroar.xyz",
+      "host": "https://ventroar.xyz",
       "port": 2548
     }
   }

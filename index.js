@@ -107,9 +107,7 @@ if (config.get("runMode") === "development") {
   console.log("development!,morgan[dev] log starting~");
   //适合本地测试用的端口(default:2547)
   app.listen(config.get("dbConfig.debugDbConfig.port"), () => {
-    console.log(
-      `localhost Server listening at http://${DEBUG_HOST}:${DEBUG_PORT}/`
-    );
+    console.log(`localhost Server listening at ${DEBUG_HOST}:${DEBUG_PORT}/`);
   });
 }
 
@@ -128,7 +126,7 @@ if (config.get("runMode") === "production") {
   https
     .createServer(keyfile, app)
     .listen(config.get("dbConfig.releaseDbConfig.port"), () =>
-      console.log(`Server listening at http://${RELEASE_HOST}:${RELEASE_PORT}/`)
+      console.log(`Server listening at ${RELEASE_HOST}:${RELEASE_PORT}/`)
     );
 }
 
