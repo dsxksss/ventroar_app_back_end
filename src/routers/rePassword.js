@@ -45,7 +45,7 @@ router.post(PATHNAME, async (req, res) => {
   if (config.get("runMode") === "development") {
     sendEmail({
       to: user.email,
-      title: `🎉验证邮箱加入VentRoar🎉`,
+      title: `📢VentRoar:修改密码邮箱提醒`,
       body: `
       <head>
       <link rel="icon" href="#"/>
@@ -63,7 +63,7 @@ router.post(PATHNAME, async (req, res) => {
   if (config.get("runMode") === "production") {
     sendEmail({
       to: user.email,
-      title: `🎉验证邮箱加入VentRoar🎉`,
+      title: `📢VentRoar:修改密码邮箱提醒`,
       body: `
       <head>
       <link rel="icon" href="#"/>
