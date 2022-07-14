@@ -116,8 +116,8 @@ if (config.get("runMode") === "development") {
 //环境为生产环境启动的log
 if (config.get("runMode") === "production") {
   //tiny是简单的log记录方式,这里使用的是dev记录格式
-  app.use(morgan("short"));
-  console.log("production!,morgan[short] log starting~");
+  app.use(morgan("dev"));
+  console.log("production!,morgan[dev] log starting~");
   //开启https需要安全key文件
   //读取安全keyfile
   const keyfile = {
