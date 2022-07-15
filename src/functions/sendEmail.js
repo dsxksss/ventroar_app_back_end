@@ -2,11 +2,10 @@ const nodemailer = require("nodemailer");
 const config = require("config"); //读取配置文件信息库
 
 /**
- * @param {
- *  to : String            发送给谁
- *  title : String         邮箱标题
- *  body : String/html     邮箱内容
- * } 
+ * @name 发送邮件封装函数
+ * @param {string} to 发送给谁
+ * @param {string} title 邮件标题
+ * @param {string} body 邮件内容 
  */
 const sendEmail = ({ to, title, body }) => {
   const selfEmail = nodemailer.createTransport({

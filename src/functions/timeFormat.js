@@ -1,4 +1,9 @@
-//获取当前年月日星期几几点几分几秒并打印
+/**
+ * 
+ * @function timeFormat 获取当前年月日星期几几点几分几秒并打印
+ * @returns {string} 返回一个已经格式化好的时间内容
+ * 
+ */
 function timeFormat() {
   var date = new Date();
   var week = ["星期日", "星期一", "星期二", "星期三", "星	期四", "星期五", "星期六"];
