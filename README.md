@@ -40,7 +40,7 @@ npm run dev
 
 | api名称                   | 路由路径                 | 作用                          | 参数                  |
 | ----------------------- | -------------------- | --------------------------- | ------------------- |
-| **signIn**              | /signin              | 登录账号(返回该登录用户基本数据)           | account,password    |
+| **SignIn**              | /signin              | 登录账号(返回该登录用户基本数据)           | account,password    |
 | **SignUp**              | /signup              | 注册账号(不提供激活但发送验证邮件)          | name,email,password |
 | **EmailActivation**     | /emailactivation     | 作用于接受邮箱激活账号                 | null                |
 | **TokenLogin**          | /tokenlogin          | 仅接受头部token登录账号(返回该登录用户基本数据) | null                |
