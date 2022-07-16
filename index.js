@@ -138,6 +138,7 @@ const rePassword = require("./src/routers/rePassword");
 const emailActivation = require("./src/routers/emailActivation");
 const sendActivationEmail = require("./src/routers/sendActivationEmail");
 const uploadImg = require("./src/routers/uploadImg");
+const uploadAvatar = require("./src/routers/uploadAvatar");
 
 app.use("/signin", signIn);
 app.use("/signup", signUp);
@@ -146,3 +147,4 @@ app.use("/repassword", rePassword);
 app.use("/emailactivation", emailActivation);
 app.use("/sendactivationemail", sendActivationEmail);
 app.use("/uploadimg", uploadImg);
+app.use("/uploadavatar", uploadAvatar);

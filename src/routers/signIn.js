@@ -63,6 +63,7 @@ router.post(PATHNAME, async (req, res) => {
           "name",
           "email",
           "friends",
+          "avatarUrl",
           "createDate",
           "isLogin",
           "isAdmin",
