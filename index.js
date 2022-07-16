@@ -137,6 +137,7 @@ const tokenLogin = require("./src/routers/tokenLogin");
 const rePassword = require("./src/routers/rePassword");
 const emailActivation = require("./src/routers/emailActivation");
 const sendActivationEmail = require("./src/routers/sendActivationEmail");
+const uploadImg = require("./src/routers/uploadImg");
 
 app.use("/signin", signIn);
 app.use("/signup", signUp);
@@ -144,3 +145,4 @@ app.use("/tokenlogin", tokenLogin);
 app.use("/repassword", rePassword);
 app.use("/emailactivation", emailActivation);
 app.use("/sendactivationemail", sendActivationEmail);
+app.use("/uploadimg", uploadImg);

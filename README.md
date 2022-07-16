@@ -47,3 +47,4 @@ npm run dev
 | **SendActivationEmail** | /sendactivationemail | 发送激活账号的验证邮件                 | email               |
 | **RePassword**          | /repassword          | 发送修改密码的验证邮件                 | email               |
 | **RePasswordValidate**  | /repassword/validate | 作用于接受邮箱修改密码                 | password            |
+| **UploadImg**           | /uploadimg           | 上传图片资源                      | null                |
