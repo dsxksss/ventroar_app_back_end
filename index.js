@@ -5,6 +5,7 @@ const cors = require("cors"); //处理本地调试跨域问题
 const morgan = require("morgan"); //morgan是一个记录http请求日志的中间件
 const config = require("config"); //读取配置文件信息库
 const fs = require("fs"); //node自带的文件读取,这里用于https证书的读取
+const path = require("path"); //node自带的路径处理库
 const https = require("https"); //创建https监听
 
 //全局变量
@@ -99,6 +100,8 @@ mongoose
 app.use(express.json());
 //解决跨域问题
 app.use(cors());
+//开放静态资源
+app.use(express.static(path.join(__dirname, "static")));
 
 //环境为开发环境启动的log
 if (config.get("runMode") === "development") {
