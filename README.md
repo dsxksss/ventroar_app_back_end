@@ -47,7 +47,7 @@ npm run dev
 | **SendActivationEmail** | /sendactivationemail | 发送激活账号的验证邮件                 | email                 | POST |
 | **RePassword**          | /repassword          | 发送修改密码的验证邮件                 | email                 | POST |
 | **RePasswordValidate**  | /repassword/validate | 用于接受邮箱修改密码                  | password header-token | PUT  |
-| **UploadImg**           | /uploadimg           | 用于上传图片资源                    | null                  | POST |
-| **UploadAvatar**        | /uploadavatar        | 用于上传用户头像资源                  | null header-token     | POST |
+| **UploadImg**           | /uploadimg           | 用于上传图片资源 (返回file基本信息)       | null                  | POST |
+| **UploadAvatar**        | /uploadavatar        | 用于上传用户头像资源 (返回file基本信息)     | null header-token     | POST |
 | **ReUserName**          | /reusername          | 用于修改用户昵称                    | name header-token     | PUT  |
 | **ReEmail**             | /reusername          | 用于修改用户邮箱                    | email header-token    | PUT  |

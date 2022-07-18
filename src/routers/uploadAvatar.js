@@ -16,7 +16,7 @@ router.post(
     }
     user.avatarUrl = req.file.filename;
     await user.save();
-    res.status(200).send({ msg: "Upload successful", file: req.file });
+    res.status(200).send({ msg: "上传头像成功", file: req.file });
   }
 );
 
