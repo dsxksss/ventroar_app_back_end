@@ -6,7 +6,7 @@ const Joi = require("joi"); //导入数据验证库
  */
 const createUserValidation = data => {
   const schema = Joi.object({
-    name: Joi.string().min(3).max(8).required(),
+    name: Joi.string().min(3).max(10).required(),
     email: Joi.string().email().max(20).required(),
     password: Joi.string().min(8).max(20).required()
   });
@@ -47,7 +47,19 @@ const rePasswordValidation = data => {
   });
   return schema.validate(data);
 };
+
+/**
+ * @functions 昵称格式验证函数
+ * @return {boolean} 如果验证正确返回true
+ */
+const reNameValidation = data => {
+  const schema = Joi.object({
+    name: Joi.string().min(3).max(10).required()
+  });
+  return schema.validate(data);
+};
 exports.createUserValidation = createUserValidation; //创建用户数据格式模板
 exports.signInValidation = signInValidation; //登录账户数据格式模板
 exports.emailValidation = emailValidation; //邮箱格式模板
 exports.rePasswordValidation = rePasswordValidation; //密码格式模板
+exports.reNameValidation = reNameValidation; //昵称格式模板
