@@ -1,14 +1,14 @@
 const express = require("express");
 const auth = require("../middlewares/auth");
 
-const { reNameValidation } = require("../functions/validateFuntions");
+const { nameValidation } = require("../functions/validateFuntions");
 const { UserDB } = require("../databases/userDB");
 const router = express.Router();
 
 //upload.single() 只接受单个文件上传
 router.put("/", auth, async (req, res) => {
   //接受数据并且先用现有模型验证格式是否正确;
-  const { error } = reNameValidation(req.body);
+  const { error } = nameValidation(req.body);
   if (error)
     return res
       .status(400) //客户端请求的语法错误，服务器无法理解

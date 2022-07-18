@@ -41,7 +41,7 @@ const emailValidation = data => {
  * @functions 密码格式验证函数
  * @return {boolean} 如果验证正确返回true
  */
-const rePasswordValidation = data => {
+const passwordValidation = data => {
   const schema = Joi.object({
     password: Joi.string().min(8).max(20).required()
   });
@@ -52,7 +52,7 @@ const rePasswordValidation = data => {
  * @functions 昵称格式验证函数
  * @return {boolean} 如果验证正确返回true
  */
-const reNameValidation = data => {
+const nameValidation = data => {
   const schema = Joi.object({
     name: Joi.string().min(3).max(10).required()
   });
@@ -61,5 +61,5 @@ const reNameValidation = data => {
 exports.createUserValidation = createUserValidation; //创建用户数据格式模板
 exports.signInValidation = signInValidation; //登录账户数据格式模板
 exports.emailValidation = emailValidation; //邮箱格式模板
-exports.rePasswordValidation = rePasswordValidation; //密码格式模板
-exports.reNameValidation = reNameValidation; //昵称格式模板
+exports.passwordValidation = passwordValidation; //密码格式模板
+exports.nameValidation = nameValidation; //昵称格式模板

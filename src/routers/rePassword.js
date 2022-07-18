@@ -13,7 +13,7 @@ const bcryptjs = require("bcryptjs");
  * 本地包 全局变量
  */
 const { emailValidation } = require("../functions/validateFuntions");
-const { rePasswordValidation } = require("../functions/validateFuntions");
+const { passwordValidation } = require("../functions/validateFuntions");
 const { UserDB } = require("../databases/userDB");
 const { sendEmail } = require("../functions/sendEmail");
 const { timeFormat } = require("../functions/timeFormat");
@@ -84,7 +84,7 @@ router.post(PATHNAME, async (req, res) => {
 router.put(`${PATHNAME}:validate`, [checkHeaderToken], async (req, res) => {
   try {
     //接受数据并且先用现有模型验证格式是否正确;
-    const { error } = rePasswordValidation(req.body);
+    const { error } = passwordValidation(req.body);
     if (error)
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
