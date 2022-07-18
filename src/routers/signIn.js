@@ -66,8 +66,7 @@ router.post(PATHNAME, async (req, res) => {
           "avatarUrl",
           "createDate",
           "isLogin",
-          "isAdmin",
-          "isValidate"
+          "isAdmin"
         ])
       }); //注册成功后反馈给客户端一个对象，里面包含了用户的一些基本数据
   });
