@@ -5,7 +5,6 @@ const { nameValidation } = require("../functions/validateFuntions");
 const { UserDB } = require("../databases/userDB");
 const router = express.Router();
 
-//upload.single() 只接受单个文件上传
 router.put("/", auth, async (req, res) => {
   //接受数据并且先用现有模型验证格式是否正确;
   const { error } = nameValidation(req.body);
@@ -19,7 +18,7 @@ router.put("/", auth, async (req, res) => {
   }
   user.name = req.body.name;
   await user.save();
-  res.status(200).send({ msg: "Upload successful", file: req.file });
+  res.status(200).send({ msg: "修改昵称成功" });
 });
 
 module.exports = router;

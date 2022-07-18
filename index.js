@@ -143,13 +143,15 @@ const sendActivationEmail = require("./src/routers/sendActivationEmail");
 const uploadImg = require("./src/routers/uploadImg");
 const uploadAvatar = require("./src/routers/uploadAvatar");
 const reUserName = require("./src/routers/reUserName");
+const reEmail = require("./src/routers/reEmail");
 
 app.use("/signin", signIn);
 app.use("/signup", signUp);
 app.use("/tokenlogin", tokenLogin);
 app.use("/repassword", rePassword);
-app.use("/reusername", reUserName);
 app.use("/emailactivation", emailActivation);
 app.use("/sendactivationemail", sendActivationEmail);
 app.use("/uploadimg", uploadImg);
 app.use("/uploadavatar", uploadAvatar);
+app.use("/reusername", reUserName);
+app.use("/reemail", reEmail);
