@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon index.js",
-    "dev": "set LOCAL_SEND_MAIL_USERNAME=ventroar.xyz@qq.com&& set LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&& set LOCAL_JWT_KEY=dsxksss&& set LOCAL_RUN_MODE=development&& nodemon index.js",
+    "dev": "set LOCAL_SEND_MAIL_USERNAME=ventroar.xyz@qq.com&& set LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&& set LOCAL_JWT_KEY=dsxksss&& set LOCAL_RUN_MODE=development && export LOCAL_SEND_MAIL_USERNAME=ventroar.xyz@qq.com&& export LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&& export LOCAL_JWT_KEY=dsxksss&& export LOCAL_RUN_MODE=development && nodemon index.js",
     "pro": "nodemon index.js"
   },
   "dependencies": {
