@@ -1,5 +1,5 @@
 /** 第三方库
- * @import express 
+ * @import express
  * @import jsonwebtoken
  * @import config
  */
@@ -8,8 +8,8 @@ const jwt = require("jsonwebtoken");
 const config = require("config"); //读取配置文件信息库
 
 /**
-  * 本地包 全局变量
-  */
+ * 本地包 全局变量
+ */
 const { UserDB } = require("../databases/userDB");
 const checkHeaderToken = require("../middlewares/checkHeaderToken");
 const router = express.Router();
@@ -23,8 +23,8 @@ router.post(`${PATHNAME}`, [checkHeaderToken], async (req, res) => {
       email: 1,
       friends: 1,
       createDate: 1,
-      isLogin: 1,
-      isAdmin: 1
+      isOnline: 1,
+      isAdmin: 1,
     });
     if (!user) return res.status(404).send({ msg: `数据库不存在此账号!!!` });
     return res.status(200).send({ msg: `登录成功`, ...user._doc }); //注册成功后反馈给客户端一个头部token

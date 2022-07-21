@@ -15,7 +15,9 @@ router.post(PATHNAME, async (req, res) => {
   if (error) {
     return res
       .status(400) //客户端请求的语法错误，服务器无法理解
-      .send({ msg: `登录数据格式不正确 错误信息: ${error.details[0].message}` });
+      .send({
+        msg: `登录数据格式不正确 错误信息: ${error.details[0].message}`,
+      });
   }
   let user = null;
   user = await UserDB.findOne({ email: req.body.account });
@@ -31,7 +33,7 @@ router.post(PATHNAME, async (req, res) => {
       .status(400) //客户端请求的语法错误，服务器无法理解
       .send({ msg: `该账号未激活,请验证邮箱激活账号!` });
   }
-  if (user.isLogin) {
+  if (user.isOnline) {
     return res
       .status(400) //客户端请求的语法错误，服务器无法理解
       .send({ msg: `账号在线,请检查是否已经登录!` });
@@ -65,9 +67,9 @@ router.post(PATHNAME, async (req, res) => {
           "friends",
           "avatarUrl",
           "createDate",
-          "isLogin",
-          "isAdmin"
-        ])
+          "isOnline",
+          "isAdmin",
+        ]),
       }); //注册成功后反馈给客户端一个对象，里面包含了用户的一些基本数据
   });
 });
