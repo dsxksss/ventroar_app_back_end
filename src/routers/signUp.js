@@ -25,14 +25,14 @@ router.post(PATHNAME, async (req, res) => {
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
         .send({
-          msg: `客户端传入的注册信息格式不正确 错误信息: ${error.details[0].message}`,
+          msg: `客户端传入的注册信息格式不正确 错误信息: ${error.details[0].message}`
         });
     let user = await UserDB.findOne({ email: req.body.email });
     if (user)
       return res
         .status(403) //服务器理解请求客户端的请求，但是拒绝执行此请求
         .send({
-          msg: "数据库已存在相同邮箱,请直接使用账号密码登录,或更换邮箱",
+          msg: "数据库已存在相同邮箱,请直接使用账号密码登录,或更换邮箱"
         });
 
     //确认无误后创建数据
@@ -42,10 +42,11 @@ router.post(PATHNAME, async (req, res) => {
         "password",
         "email",
         "friends",
+        "inBox",
         "createDate",
         "isAdmin",
         "isValidate",
-        "isOnline",
+        "isOnline"
       ])
     );
 
@@ -56,10 +57,9 @@ router.post(PATHNAME, async (req, res) => {
     //     res.send('密码正确')
     // })
 
-    bcryptjs.genSalt(MI, function (_err, salt) {
-      bcryptjs.hash(req.body.password, salt, async function (err, hash) {
-        if (err)
-          return res.status(400).send("用户信息加密失败,请重新注册" + err);
+    bcryptjs.genSalt(MI, function(_err, salt) {
+      bcryptjs.hash(req.body.password, salt, async function(err, hash) {
+        if (err) return res.status(400).send("用户信息加密失败,请重新注册" + err);
         user.password = hash;
         await user.save(); //保存用户加密数据
       });
@@ -73,7 +73,7 @@ router.post(PATHNAME, async (req, res) => {
     const emailToken = jwt.sign(
       {
         _id: user._id, //用户id
-        exp: Math.floor(Date.now() / 1000) + 60 * 30, //token失效时间为三十分钟
+        exp: Math.floor(Date.now() / 1000) + 60 * 30 //token失效时间为三十分钟
       },
       config.get("jwtkey")
     );
@@ -89,7 +89,7 @@ router.post(PATHNAME, async (req, res) => {
       <div>
         <a href="${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
         <p><b>有效时长30分钟</b></p>
-      </div>`,
+      </div>`
       });
     }
 
@@ -106,7 +106,7 @@ router.post(PATHNAME, async (req, res) => {
           <a href="${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
         <p><b>有效时长30分钟</b></p>
         </div>
-        `,
+        `
       });
     }
 

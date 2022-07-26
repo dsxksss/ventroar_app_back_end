@@ -22,6 +22,7 @@ router.post(`${PATHNAME}`, [checkHeaderToken], async (req, res) => {
       name: 1,
       email: 1,
       friends: 1,
+      inBox: 1,
       createDate: 1,
       avatarUrl: 1,
       isOnline: 1,

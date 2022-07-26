@@ -16,7 +16,7 @@ router.post(PATHNAME, async (req, res) => {
     return res
       .status(400) //客户端请求的语法错误，服务器无法理解
       .send({
-        msg: `登录数据格式不正确 错误信息: ${error.details[0].message}`,
+        msg: `登录数据格式不正确 错误信息: ${error.details[0].message}`
       });
   }
   let user = null;
@@ -66,10 +66,11 @@ router.post(PATHNAME, async (req, res) => {
           "email",
           "friends",
           "avatarUrl",
+          "inBox",
           "createDate",
           "isOnline",
-          "isAdmin",
-        ]),
+          "isAdmin"
+        ])
       }); //注册成功后反馈给客户端一个对象，里面包含了用户的一些基本数据
   });
 });
