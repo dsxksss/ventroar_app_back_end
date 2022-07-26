@@ -89,7 +89,7 @@ if (HASCONFIGF()) {
 mongoose
   //先连接这个数据库表
   //如果没有的话就创建这个表
-  .connect("mongodb://localhost/ventroarAppApi")
+  .connect("mongodb://localhost/VentRoarAppApi")
   .then(() => console.log("Connect DataBase...... OK"))
   .catch(err => {
     console.log(`Could not connect to dataBase [ ${err} ] !!!`);
