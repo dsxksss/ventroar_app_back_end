@@ -23,8 +23,8 @@ const HASENV = () => {
   if (!config.has("runMode")) {
     HASENV_ERROR_NAME.push("runMode");
   }
-  if (!config.has("jwtkey")) {
-    HASENV_ERROR_NAME.push("jwtket");
+  if (!config.has("jwtKey")) {
+    HASENV_ERROR_NAME.push("jwtKey");
   }
   if (!config.has("sendMailUserName")) {
     HASENV_ERROR_NAME.push("sendMailUserName");
@@ -34,7 +34,7 @@ const HASENV = () => {
   }
   const result =
     !config.has("runMode") || //启动模式(development and production)
-    !config.has("jwtkey") || //jwtTokenKey
+    !config.has("jwtKey") || //jwtTokenKey
     !config.has("sendMailUserName") || //邮箱发送服务的邮箱账号
     !config.has("sendMailPassword"); //邮箱发送服务的邮箱密码
   return result;
@@ -112,6 +112,9 @@ if (config.get("runMode") === "development") {
   app.listen(config.get("dbConfig.debugDbConfig.port"), () => {
     console.log(`localhost Server listening at ${DEBUG_HOST}:${DEBUG_PORT}/`);
   });
+} else {
+  console.log(`环境变量[runMode],配置不正确,只能为development或production...`);
+  process.exit(1);
 }
 
 //环境为生产环境启动的log
@@ -131,6 +134,9 @@ if (config.get("runMode") === "production") {
     .listen(config.get("dbConfig.releaseDbConfig.port"), () =>
       console.log(`Server listening at ${RELEASE_HOST}:${RELEASE_PORT}/`)
     );
+} else {
+  console.log(`环境变量[runMode],配置不正确,只能为development或production...`);
+  process.exit(1);
 }
 
 //导入注册路由
