@@ -7,6 +7,7 @@ const config = require("config"); //读取配置文件信息库
 const fs = require("fs"); //node自带的文件读取,这里用于https证书的读取
 const path = require("path"); //node自带的路径处理库
 const https = require("https"); //创建https监听
+const http = require("http"); //创建http监听
 
 //全局变量
 const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
@@ -85,6 +86,14 @@ if (HASCONFIGF()) {
   process.exit(1);
 }
 
+if (
+  config.get("runMode") !== "development" &&
+  config.get("runMode") !== "production"
+) {
+  console.log(`环境变量[runMode],配置不正确,只能为development或production`);
+  process.exit(1);
+}
+
 //MongoDB数据库连接
 mongoose
   //先连接这个数据库表
@@ -95,38 +104,16 @@ mongoose
     console.log(`Could not connect to dataBase [ ${err} ] !!!`);
   });
 
-//SM:中间件
-//数据转换成req.body的JSON
-app.use(express.json());
-//解决跨域问题
-app.use(cors());
-//开放静态资源
-app.use(express.static(path.join(__dirname, "static")));
-
-if (
-  config.get("runMode") === "development" ||
-  config.get("runMode") === "production"
-) {
-  console.log(`环境变量[runMode],配置不正确,只能为development或production...`);
-  process.exit(1);
-}
-
-//环境为开发环境启动的log
 if (config.get("runMode") === "development") {
-  //tiny是简单的log记录方式,这里使用的是dev记录格式
-  app.use(morgan("dev"));
-  console.log("development!,morgan[dev] log starting~");
   //适合测试模式用的端口(default:2547)
-  app.listen(config.get("dbConfig.debugDbConfig.port"), () => {
-    console.log(`localhost Server listening at ${DEBUG_HOST}:${DEBUG_PORT}/`);
-  });
+  http
+    .createServer(app)
+    .listen(config.get("dbConfig.debugDbConfig.port"), () => {
+      console.log(`localhost Server listening at ${DEBUG_HOST}:${DEBUG_PORT}/`);
+    });
 }
 
-//环境为生产环境启动的log
 if (config.get("runMode") === "production") {
-  //tiny是简单的log记录方式,这里使用的是dev记录格式
-  app.use(morgan("dev"));
-  console.log("production!,morgan[dev] log starting~");
   //开启https需要安全key文件
   //读取安全keyfile
   const keyfile = {
@@ -153,6 +140,18 @@ const uploadAvatar = require("./src/routers/uploadAvatar");
 const reUserName = require("./src/routers/reUserName");
 const reEmail = require("./src/routers/reEmail");
 
+//SM:中间件
+//数据转换成req.body的JSON
+app.use(express.json());
+//解决跨域问题
+app.use(cors());
+//开放静态资源
+app.use(express.static(path.join(__dirname, "static")));
+//环境为开发环境启动的log
+app.use(morgan("dev"));
+console.log("morgan[dev] log starting~");
+
+//注册路由
 app.use("/signin", signIn);
 app.use("/signup", signUp);
 app.use("/tokenlogin", tokenLogin);
