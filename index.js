@@ -103,8 +103,6 @@ app.use(cors());
 //开放静态资源
 app.use(express.static(path.join(__dirname, "static")));
 
-console.log(config.get("runMode"));
-
 if (
   config.get("runMode") === "development" ||
   config.get("runMode") === "production"
@@ -116,7 +114,7 @@ if (
 //环境为开发环境启动的log
 if (config.get("runMode") === "development") {
   //tiny是简单的log记录方式,这里使用的是dev记录格式
-  // app.use(morgan("dev"));
+  app.use(morgan("dev"));
   console.log("development!,morgan[dev] log starting~");
   //适合测试模式用的端口(default:2547)
   app.listen(config.get("dbConfig.debugDbConfig.port"), () => {
