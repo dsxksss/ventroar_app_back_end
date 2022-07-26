@@ -77,12 +77,16 @@ const HASCONFIGF = () => {
 };
 
 if (HASENV()) {
-  console.log(`缺少所需的环境变量[${HASENV_ERROR_NAME}],请初始化环境变量再次启动服务...`);
+  console.log(
+    `缺少所需的环境变量[${HASENV_ERROR_NAME}],请初始化环境变量再次启动服务...`
+  );
   process.exit(1);
 }
 
 if (HASCONFIGF()) {
-  console.log(`配置文件default.json属性值[${HASCONFIGF_ERROR_NAME}],请检查配置文件再次启动服务...`);
+  console.log(
+    `配置文件default.json属性值[${HASCONFIGF_ERROR_NAME}],请检查配置文件再次启动服务...`
+  );
   process.exit(1);
 }
 
@@ -100,7 +104,7 @@ mongoose
   //如果没有的话就创建这个表
   .connect("mongodb://localhost/VentRoarAppApi")
   .then(() => console.log("Connect DataBase...... OK"))
-  .catch(err => {
+  .catch((err) => {
     console.log(`Could not connect to dataBase [ ${err} ] !!!`);
   });
 
@@ -118,7 +122,7 @@ if (config.get("runMode") === "production") {
   //读取安全keyfile
   const keyfile = {
     key: fs.readFileSync("ventroar.xyz.key"),
-    cert: fs.readFileSync("ventroar.xyz_bundle.crt")
+    cert: fs.readFileSync("ventroar.xyz_bundle.crt"),
   };
   //适合开发模式用的端口(default:2548)
   https
@@ -139,6 +143,7 @@ const uploadImg = require("./src/routers/uploadImg");
 const uploadAvatar = require("./src/routers/uploadAvatar");
 const reUserName = require("./src/routers/reUserName");
 const reEmail = require("./src/routers/reEmail");
+const getUserInBox = require("./src/routers/inBoxRouters/getUserInBox");
 
 //SM:中间件
 //数据转换成req.body的JSON
@@ -162,3 +167,4 @@ app.use("/uploadimg", uploadImg);
 app.use("/uploadavatar", uploadAvatar);
 app.use("/reusername", reUserName);
 app.use("/reemail", reEmail);
+app.use("/getuserinbox", getUserInBox);
