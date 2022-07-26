@@ -103,6 +103,8 @@ app.use(cors());
 //开放静态资源
 app.use(express.static(path.join(__dirname, "static")));
 
+console.log(config.get("runMode"));
+
 if (
   config.get("runMode") === "development" ||
   config.get("runMode") === "production"
@@ -116,7 +118,7 @@ if (config.get("runMode") === "development") {
   //tiny是简单的log记录方式,这里使用的是dev记录格式
   app.use(morgan("dev"));
   console.log("development!,morgan[dev] log starting~");
-  //适合本地测试用的端口(default:2547)
+  //适合测试模式用的端口(default:2547)
   app.listen(config.get("dbConfig.debugDbConfig.port"), () => {
     console.log(`localhost Server listening at ${DEBUG_HOST}:${DEBUG_PORT}/`);
   });
@@ -133,7 +135,7 @@ if (config.get("runMode") === "production") {
     key: fs.readFileSync("ventroar.xyz.key"),
     cert: fs.readFileSync("ventroar.xyz_bundle.crt")
   };
-  //适合本地测试用的端口(default:2546)
+  //适合开发模式用的端口(default:2546)
   https
     .createServer(keyfile, app)
     .listen(config.get("dbConfig.releaseDbConfig.port"), () =>
