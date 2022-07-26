@@ -15,7 +15,7 @@ module.exports = function(req, res, next) {
 
   //verify函数会解析传入的token是否合法,如果不合法会抛出一个异常,合法的话返回token里的内容
   try {
-    const tokenData = jwt.verify(token, config.get("jwtkey"));
+    const tokenData = jwt.verify(token, config.get("jwtKey"));
     let user = UserDB.findById(tokenData._id);
     if (!user) {
       res.status(404).send({ msg: "数据库不存在此用户" });

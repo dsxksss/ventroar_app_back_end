@@ -10,7 +10,7 @@
 | 配置名                  | 配置方式                                        | 配置作用                                                  |
 | -------------------- | ------------------------------------------- | ----------------------------------------------------- |
 | **runMode**          | set LOCAL_RUN_MODE=development 或 production | 项目运行模式,分别为开发模式(development)和发布模式(production),默认:开发者模式 |
-| **jwtkey**           | set LOCAL_JWT_KET=自定义密钥                     | JsonWebToken密钥值,用来校验用户token是否合法                       |
+| **jwtKey**           | set LOCAL_JWT_KET=自定义密钥                     | JsonWebToken密钥值,用来校验用户token是否合法                       |
 | **sendMailUserName** | set LOCAL_SEND_MAIL_USERNAME=邮箱账号           | 邮箱服务的账号名字                                             |
 | **sendMailPassword** | set LOCAL_SEND_MAIL_PASSWORD=邮箱密码           | 邮箱服务的账号密码                                             |
 

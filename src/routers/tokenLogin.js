@@ -17,7 +17,7 @@ const PATHNAME = "/";
 
 router.post(`${PATHNAME}`, [checkHeaderToken], async (req, res) => {
   try {
-    const token = jwt.verify(req.header("x-auth-token"), config.get("jwtkey"));
+    const token = jwt.verify(req.header("x-auth-token"), config.get("jwtKey"));
     let user = await UserDB.findById(token._id).select({
       name: 1,
       email: 1,

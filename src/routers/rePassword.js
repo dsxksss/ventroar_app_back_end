@@ -39,7 +39,7 @@ router.post(PATHNAME, async (req, res) => {
       _id: user._id, //用户id
       exp: Math.floor(Date.now() / 1000) + 60 * 30 //token失效时间为三十分钟
     },
-    config.get("jwtkey")
+    config.get("jwtKey")
   );
   //测试环境下发送验证邮件
   if (config.get("runMode") === "development") {
@@ -89,7 +89,7 @@ router.put(`${PATHNAME}:validate`, [checkHeaderToken], async (req, res) => {
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
         .send({ msg: `密码格式不正确 错误信息: ${error.details[0].message}` });
-    const token = jwt.verify(req.header("x-auth-token"), config.get("jwtkey"));
+    const token = jwt.verify(req.header("x-auth-token"), config.get("jwtKey"));
     let user = await UserDB.findById(token._id);
 
     if (!user) return res.status(404).send({ msg: `数据库不存在此账号!!!` });

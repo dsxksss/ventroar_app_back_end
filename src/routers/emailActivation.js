@@ -14,7 +14,7 @@ const PATHNAME = "/";
 
 router.get(`${PATHNAME}:emailtoken`, async (req, res) => {
   try {
-    let token = jwt.verify(req.params.emailtoken, config.get("jwtkey"));
+    let token = jwt.verify(req.params.emailtoken, config.get("jwtKey"));
     let user = await UserDB.findById(token._id);
     if (!user) return res.status(404).send(`<h1>数据库不存在此账号!!!</h1>`);
     if (user.isValidate)

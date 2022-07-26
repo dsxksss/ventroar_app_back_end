@@ -34,7 +34,7 @@ router.post(PATHNAME, async (req, res) => {
         _id: user._id, //用户id
         exp: Math.floor(Date.now() / 1000) + 60 * 30 //token失效时间为三十分钟
       },
-      config.get("jwtkey")
+      config.get("jwtKey")
     );
 
     //测试环境下发送验证邮件
