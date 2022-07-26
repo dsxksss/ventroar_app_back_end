@@ -103,6 +103,14 @@ app.use(cors());
 //开放静态资源
 app.use(express.static(path.join(__dirname, "static")));
 
+if (
+  config.get("runMode") === "development" ||
+  config.get("runMode") === "production"
+) {
+  console.log(`环境变量[runMode],配置不正确,只能为development或production...`);
+  process.exit(1);
+}
+
 //环境为开发环境启动的log
 if (config.get("runMode") === "development") {
   //tiny是简单的log记录方式,这里使用的是dev记录格式
@@ -112,9 +120,6 @@ if (config.get("runMode") === "development") {
   app.listen(config.get("dbConfig.debugDbConfig.port"), () => {
     console.log(`localhost Server listening at ${DEBUG_HOST}:${DEBUG_PORT}/`);
   });
-} else {
-  console.log(`环境变量[runMode],配置不正确,只能为development或production...`);
-  process.exit(1);
 }
 
 //环境为生产环境启动的log
@@ -134,9 +139,6 @@ if (config.get("runMode") === "production") {
     .listen(config.get("dbConfig.releaseDbConfig.port"), () =>
       console.log(`Server listening at ${RELEASE_HOST}:${RELEASE_PORT}/`)
     );
-} else {
-  console.log(`环境变量[runMode],配置不正确,只能为development或production...`);
-  process.exit(1);
 }
 
 //导入注册路由
