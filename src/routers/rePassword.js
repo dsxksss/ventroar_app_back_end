@@ -18,6 +18,7 @@ const { UserDB } = require("../databases/userDB");
 const { sendEmail } = require("../functions/sendEmail");
 const { timeFormat } = require("../functions/timeFormat");
 const checkHeaderToken = require("../middlewares/checkHeaderToken");
+const { msgType } = require("../functions/sendBoxMsg");
 const router = express.Router();
 const PATHNAME = "/";
 const MI = 10;
@@ -99,6 +100,10 @@ router.put(`${PATHNAME}:validate`, [checkHeaderToken], async (req, res) => {
         if (err)
           return res.status(400).send({ msg: `用户信息加密失败,请重新注册 error: ${err}` });
         user.password = hash;
+        user.inBox.sendBoxMsg({
+          msg: `您于${timeFormat()}修改密码`,
+          msgType: msgType.error
+        });
         await user.save(); //保存用户加密数据
       });
     });
