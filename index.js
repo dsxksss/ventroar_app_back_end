@@ -8,8 +8,10 @@ const fs = require("fs"); //node自带的文件读取,这里用于https证书的
 const path = require("path"); //node自带的路径处理库
 const https = require("https"); //创建https监听
 const http = require("http"); //创建http监听
+const { sendBoxMsg } = require("./src/functions/sendBoxMsg");
 
 //全局变量
+Array.prototype.sendBoxMsg = sendBoxMsg;
 const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
 const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
 const RELEASE_HOST = config.get("dbConfig.releaseDbConfig.host");
