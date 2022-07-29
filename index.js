@@ -141,6 +141,8 @@ const reUserName = require("./src/routers/reUserName");
 const reEmail = require("./src/routers/reEmail");
 const getUserInBox = require("./src/routers/inBoxRouters/getUserInBox");
 const readBoxMsg = require("./src/routers/inBoxRouters/readBoxMsg");
+const deleteBoxMsg = require("./src/routers/inBoxRouters/deleteBoxMsg");
+const clearInBox = require("./src/routers/inBoxRouters/clearInBox");
 
 //SM:中间件
 //数据转换成req.body的JSON
@@ -166,3 +168,5 @@ app.use("/reusername", reUserName);
 app.use("/reemail", reEmail);
 app.use("/getuserinbox", getUserInBox);
 app.use("/readboxmsg", readBoxMsg);
+app.use("/deleteboxmsg", deleteBoxMsg);
+app.use("/clearinbox", clearInBox);
