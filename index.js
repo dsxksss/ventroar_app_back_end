@@ -11,6 +11,7 @@ const http = require("http"); //创建http监听
 const { sendBoxMsg } = require("./src/functions/sendBoxMsg");
 
 //全局变量
+//在array对象的原型上添加此函数,使全部array对象都可以使用此方法
 Array.prototype.sendBoxMsg = sendBoxMsg;
 const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
 const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
