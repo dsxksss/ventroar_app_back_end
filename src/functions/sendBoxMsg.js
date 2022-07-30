@@ -5,7 +5,7 @@
  * @param {string} msgType 信件类型
  */
 
-exports.msgType = {
+exports.MsgType = {
   info: "info", //重要的通知
   unimportant: "unimportant", //不重要的信件
   warning: "warning", //低警告信件

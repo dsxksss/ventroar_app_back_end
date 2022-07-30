@@ -6,6 +6,8 @@ const config = require("config"); //读取配置文件信息库
 const { emailValidation } = require("../functions/validateFuntions");
 const { UserDB } = require("../databases/userDB");
 const { sendEmail } = require("../functions/sendEmail");
+const { MsgType } = require("../functions/sendBoxMsg");
+const { timeFormat } = require("../functions/timeFormat");
 const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
 const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
 const RELEASE_HOST = config.get("dbConfig.releaseDbConfig.host");
@@ -42,7 +44,7 @@ router.put("/", auth, async (req, res) => {
   //测试环境下发送验证邮件
   if (config.get("runMode") === "development") {
     sendEmail({
-      to: user.email,
+      to: req.body.email,
       title: `📢VentRoar:验证新邮箱`,
       body: `<head>
       <link rel="icon" href="#"/>
@@ -57,7 +59,7 @@ router.put("/", auth, async (req, res) => {
   //发布环境下发送验证邮件
   if (config.get("runMode") === "production") {
     sendEmail({
-      to: user.email,
+      to: req.body.email,
       title: `📢VentRoar:验证新邮箱`,
       body: `
         <head>
@@ -73,9 +75,11 @@ router.put("/", auth, async (req, res) => {
 
   user.isValidate = false; //设置用户验证状态,点击邮箱网址激活账号(默认未激活)
   user.email = req.body.email;
-
+  user.inBox.sendBoxMsg({
+    msg: `您于${timeFormat()}修改了账号邮箱`,
+    msgType: MsgType.error
+  });
   await user.save();
   res.status(200).send({ msg: "修改邮箱成功,发送了一条激活邮件,记得激活使用,否则无法使用账号!" });
 });
-
 module.exports = router;
