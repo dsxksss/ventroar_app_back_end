@@ -1,5 +1,6 @@
-
 # API说明(路由路径规范为全小写)
+
+# 基本api
 
 | api名称                   | 路由路径                 | 作用                          | 参数                    | 方法   |
 | ----------------------- | -------------------- | --------------------------- | --------------------- | ---- |
@@ -14,3 +15,12 @@
 | **UploadAvatar**        | /uploadavatar        | 用于上传用户头像资源 (返回file基本信息)     | null header-token     | POST |
 | **ReUserName**          | /reusername          | 用于修改用户昵称                    | name header-token     | PUT  |
 | **ReEmail**             | /reusername          | 用于修改用户邮箱                    | email header-token    | PUT  |
+
+# inBox收件箱api
+
+| api名称            | 路由路径                | 作用                          | 参数               | 方法     |
+| ---------------- | ------------------- | --------------------------- | ---------------- | ------ |
+| **GetUserInBox** | /getUserInBox       | 获取该用户的收件箱数据(inBox as Array) | account,password | GET    |
+| **ReadBoxMsg**   | /readboxmsg/index   | 让提供的index下标信件已读             | params:index     | PUT    |
+| **DeleteBoxMsg** | /deleteboxmsg/index | 删除提供的index下标信件              | params:index     | DELETE |
+| **ClearInBox**   | /clearinbox/index   | 清空用户收件箱                     | null             | DELETE |
