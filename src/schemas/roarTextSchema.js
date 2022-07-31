@@ -5,7 +5,7 @@ const roarTextSchema = new mongoose.Schema({
     type: String, //类型
     required: true, //必填项
     minlength: 3, //最小值
-    maxlength: 500, //最大值
+    maxlength: 520, //最大值
   },
   userId: {
     type: String,

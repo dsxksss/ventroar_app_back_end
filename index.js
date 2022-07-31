@@ -36,8 +36,7 @@ const HASENV = () => {
   if (!config.has("sendMailPassword")) {
     HASENV_ERROR_NAME.push("sendMailPassword");
   }
-  const result =
-    !config.has("runMode") || //启动模式(development and production)
+  const result = !config.has("runMode") || //启动模式(development and production)
     !config.has("jwtKey") || //jwtTokenKey
     !config.has("sendMailUserName") || //邮箱发送服务的邮箱账号
     !config.has("sendMailPassword"); //邮箱发送服务的邮箱密码
@@ -68,8 +67,7 @@ const HASCONFIGF = () => {
     HASCONFIGF_ERROR_NAME.push("dbConfig.releaseDbConfig.port");
   }
 
-  const result =
-    !config.has("sendMailConfig.senderName") || //邮箱发送者名字
+  const result = !config.has("sendMailConfig.senderName") || //邮箱发送者名字
     !config.has("sendMailConfig.host") || //邮件服务的服务方地址
     !config.has("sendMailConfig.port") || //邮件服务的服务方端口
     !config.has("dbConfig.debugDbConfig.host") || //debug运行环境下的host
@@ -103,7 +101,7 @@ mongoose
   //如果没有的话就创建这个表
   .connect("mongodb://localhost/VentRoarAppApi")
   .then(() => console.log("Connect DataBase...... OK"))
-  .catch(err => {
+  .catch((err) => {
     console.log(`Could not connect to dataBase [ ${err} ] !!!`);
   });
 
@@ -121,13 +119,14 @@ if (config.get("runMode") === "production") {
   //读取安全keyfile
   const keyfile = {
     key: fs.readFileSync("ventroar.xyz.key"),
-    cert: fs.readFileSync("ventroar.xyz_bundle.crt")
+    cert: fs.readFileSync("ventroar.xyz_bundle.crt"),
   };
   //适合开发模式用的端口(default:2548)
   https
     .createServer(keyfile, app)
-    .listen(config.get("dbConfig.releaseDbConfig.port"), () =>
-      console.log(`Server listening at ${RELEASE_HOST}:${RELEASE_PORT}/`)
+    .listen(
+      config.get("dbConfig.releaseDbConfig.port"),
+      () => console.log(`Server listening at ${RELEASE_HOST}:${RELEASE_PORT}/`),
     );
 }
 
@@ -146,6 +145,7 @@ const getUserInBox = require("./src/routers/inBoxRouters/getUserInBox");
 const readBoxMsg = require("./src/routers/inBoxRouters/readBoxMsg");
 const deleteBoxMsg = require("./src/routers/inBoxRouters/deleteBoxMsg");
 const clearInBox = require("./src/routers/inBoxRouters/clearInBox");
+const postRoarText = require("./src/routers/roarTextRouters/postRoarText");
 
 //SM:中间件
 //数据转换成req.body的JSON
@@ -173,3 +173,4 @@ app.use("/getuserinbox", getUserInBox);
 app.use("/readboxmsg", readBoxMsg);
 app.use("/deleteboxmsg", deleteBoxMsg);
 app.use("/clearinbox", clearInBox);
+app.use("/postroartext", postRoarText);

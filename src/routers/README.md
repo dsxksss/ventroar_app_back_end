@@ -24,3 +24,9 @@
 | **ReadBoxMsg**   | /readboxmsg/index   | 让提供的index下标信件已读             | params:index     | PUT    |
 | **DeleteBoxMsg** | /deleteboxmsg/index | 删除提供的index下标信件              | params:index     | DELETE |
 | **ClearInBox**   | /clearinbox/index   | 清空用户收件箱                     | null             | DELETE |
+
+# roarText发泄墙api
+
+| api名称            | 路由路径          | 作用         | 参数                           | 方法   |
+| ---------------- | ------------- | ---------- | ---------------------------- | ---- |
+| **PostRoarText** | /postroartext | 用户发布宣泄帖子路由 | text,isPublic,isShowUserName | POST |
