@@ -23,7 +23,7 @@
 | **GetUserInBox** | /getUserInBox       | 获取该用户的收件箱数据(inBox as Array) | account,password | GET    |
 | **ReadBoxMsg**   | /readboxmsg/index   | 让提供的index下标信件已读             | params:index     | PUT    |
 | **DeleteBoxMsg** | /deleteboxmsg/index | 删除提供的index下标信件              | params:index     | DELETE |
-| **ClearInBox**   | /clearinbox/index   | 清空用户收件箱                     | null             | DELETE |
+| **ClearInBox**   | /clearinbox         | 清空用户收件箱                     | null             | DELETE |
 
 # roarText发泄墙api
 
