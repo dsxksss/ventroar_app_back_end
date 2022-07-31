@@ -20,7 +20,7 @@ const createUserValidation = (data) => {
  */
 const createRoarTextValidation = (data) => {
   const schema = Joi.object({
-    text: Joi.string().min(3).max(500).required(),
+    text: Joi.string().min(3).max(510).required(),
     isShowUserName: Joi.boolean().required(),
     isPublic: Joi.boolean().required(),
   });
