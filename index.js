@@ -148,6 +148,7 @@ const clearInBox = require("./src/routers/inBoxRouters/clearInBox");
 const postRoarText = require("./src/routers/roarTextRouters/postRoarText");
 const getAllRoarText = require("./src/routers/roarTextRouters/getAllRoarText");
 const clickTextLikes = require("./src/routers/roarTextRouters/clickTextLikes");
+const putRoarText = require("./src/routers/roarTextRouters/putRoarText");
 
 //SM:中间件
 //数据转换成req.body的JSON
@@ -178,3 +179,4 @@ app.use("/clearinbox", clearInBox);
 app.use("/postroartext", postRoarText);
 app.use("/getallroartext", getAllRoarText);
 app.use("/clicktextlikes", clickTextLikes);
+app.use("/putroartext", putRoarText);
