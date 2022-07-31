@@ -11,7 +11,7 @@ const roarTextSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 10, //最小值
-    maxlength: 40, //最大值
+    maxlength: 50, //最大值
   },
   createDate: {
     type: Number,
