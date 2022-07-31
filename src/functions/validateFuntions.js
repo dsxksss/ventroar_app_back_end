@@ -79,6 +79,7 @@ const nameValidation = (data) => {
  */
 const likesValidation = (data) => {
   const schema = Joi.object({
+    textId: Joi.string().min(10).max(50).required(),
     smil: Joi.boolean(),
     heart: Joi.boolean(),
   });
@@ -91,7 +92,7 @@ const likesValidation = (data) => {
  */
 const idValidation = (data) => {
   const schema = Joi.object({
-    smil: Joi.string().min(10).max(50).required(),
+    id: Joi.string().min(10).max(50).required(),
   });
   return schema.validate(data);
 };
