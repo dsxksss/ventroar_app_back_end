@@ -72,9 +72,22 @@ const nameValidation = (data) => {
   });
   return schema.validate(data);
 };
+
+/**
+ * @functions 点赞格式验证函数
+ * @return {boolean} 如果验证正确返回true
+ */
+const likesValidation = (data) => {
+  const schema = Joi.object({
+    smil: Joi.boolean(),
+    heart: Joi.boolean(),
+  });
+  return schema.validate(data);
+};
 exports.createUserValidation = createUserValidation; //创建用户数据格式模板
 exports.createRoarTextValidation = createRoarTextValidation; //创建发泄帖子数据格式模板
 exports.signInValidation = signInValidation; //登录账户数据格式模板
 exports.emailValidation = emailValidation; //邮箱格式模板
 exports.passwordValidation = passwordValidation; //密码格式模板
 exports.nameValidation = nameValidation; //昵称格式模板
+exports.likesValidation = likesValidation; //点赞格式模板
