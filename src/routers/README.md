@@ -27,6 +27,7 @@
 
 # roarText发泄墙api
 
-| api名称            | 路由路径          | 作用         | 参数                           | 方法   |
-| ---------------- | ------------- | ---------- | ---------------------------- | ---- |
-| **PostRoarText** | /postroartext | 用户发布宣泄帖子路由 | text,isPublic,isShowUserName | POST |
+| api名称              | 路由路径            | 作用            | 参数                           | 方法   |
+| ------------------ | --------------- | ------------- | ---------------------------- | ---- |
+| **PostRoarText**   | /postroartext   | 用户发布宣泄帖子      | text,isPublic,isShowUserName | POST |
+| **GetAllRoarText** | /getallroartext | 获取全部用户发布的宣泄帖子 | null                         | GET  |
