@@ -23,8 +23,6 @@ const createRoarTextValidation = (data) => {
     text: Joi.string().min(3).max(500).required(),
     isShowUserName: Joi.boolean().required(),
     isPublic: Joi.boolean().required(),
-    smil: Joi.boolean(),
-    heart: Joi.boolean(),
   });
   //返回验证结果
   return schema.validate(data);
