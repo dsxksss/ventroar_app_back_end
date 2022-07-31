@@ -27,9 +27,10 @@
 
 # roarText发泄墙api
 
-| api名称              | 路由路径            | 作用            | 参数                                  | 方法   |
-| ------------------ | --------------- | ------------- | ----------------------------------- | ---- |
-| **PostRoarText**   | /postroartext   | 用户发布宣泄帖子      | text,isPublic,isShowUserName        | POST |
-| **GetAllRoarText** | /getallroartext | 获取全部用户发布的宣泄帖子 | null                                | GET  |
-| **ClickTextLikes** | /clicktextlikes | 给指定的宣泄帖点赞     | textId,smil(bool),heart(bool)       | PUT  |
-| **PutRoarText**    | /putroartext    | 编辑指定的宣泄帖内容    | textId,text,isPublic,isShowUserName | PUT  |
+| api名称              | 路由路径            | 作用                | 参数                                  | 方法     |
+| ------------------ | --------------- | ----------------- | ----------------------------------- | ------ |
+| **PostRoarText**   | /postroartext   | 用户发布宣泄帖子          | text,isPublic,isShowUserName        | POST   |
+| **GetAllRoarText** | /getallroartext | 获取全部用户发布的宣泄帖子     | null                                | GET    |
+| **ClickTextLikes** | /clicktextlikes | 给指定的宣泄帖点赞         | textId,smil(bool),heart(bool)       | PUT    |
+| **PutRoarText**    | /putroartext    | 编辑指定的宣泄帖内容        | textId,text,isPublic,isShowUserName | PUT    |
+| **DeleteRoarText** | /deleteroartext | 删除指定的宣泄帖(支持管理员删除) | id                                  | DELETE |
