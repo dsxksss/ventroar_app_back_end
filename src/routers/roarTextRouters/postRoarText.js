@@ -37,7 +37,7 @@ router.post(`/`, [auth], async (req, res) => {
     text.smil = 0; //初始化笑脸数量(默认0)
     text.heart = 0; //初始化爱心数量(默认0)
     text.likeUsers = [];
-    text.roarTextComments = [];
+    text.textComments = [];
 
     await text.save();
     return res.status(200).send({ msg: "发帖成功,调整心态明天会更好的~" }); //注册成功后反馈给客户端一个头部token
