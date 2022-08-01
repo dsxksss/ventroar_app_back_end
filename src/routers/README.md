@@ -27,11 +27,12 @@
 
 # roarText发泄墙api
 
-| api名称                  | 路由路径                | 作用                | 参数                                               | 方法     |
-| ---------------------- | ------------------- | ----------------- | ------------------------------------------------ | ------ |
-| **GetAllRoarText**     | /getallroartext     | 获取全部用户发布的宣泄帖子     | null                                             | GET    |
-| **GetUserAllRoarText** | /getuserallroartext | 获取该用户的全部宣泄贴       | null                                             | GET    |
-| **PostRoarText**       | /postroartext       | 用户发布宣泄帖子          | text,isPublic,isShowUserName,isCanComment        | POST   |
-| **ClickTextLikes**     | /clicktextlikes     | 给指定的宣泄帖点赞         | textId,smil(bool),heart(bool)                    | PUT    |
-| **PutRoarText**        | /putroartext        | 编辑指定的宣泄帖内容        | textId,text,isPublic,isShowUserName,isCanComment | PUT    |
-| **DeleteRoarText**     | /deleteroartext     | 删除指定的宣泄帖(支持管理员删除) | id                                               | DELETE |
+| api名称                   | 路由路径                 | 作用                                   | 参数                                               | 方法     |
+| ----------------------- | -------------------- | ------------------------------------ | ------------------------------------------------ | ------ |
+| **GetAllRoarText**      | /getallroartext      | 获取全部用户发布的宣泄帖子                        | null                                             | GET    |
+| **GetUserAllRoarText**  | /getuserallroartext  | 获取该用户的全部宣泄贴                          | null                                             | GET    |
+| **PostRoarText**        | /postroartext        | 用户发布宣泄帖子                             | text,isPublic,isShowUserName,isCanComment        | POST   |
+| **ClickTextLikes**      | /clicktextlikes      | 给指定的宣泄帖点赞                            | textId,smil(bool),heart(bool)                    | PUT    |
+| **PutRoarText**         | /putroartext         | 编辑指定的宣泄帖内容                           | textId,text,isPublic,isShowUserName,isCanComment | PUT    |
+| **DeleteRoarText**      | /deleteroartext      | 删除指定的宣泄帖(支持管理员删除)                    | id                                               | DELETE |
+| **PostRoarTextComment** | /postroartextcomment | 评论指定的宣泄帖(未开启isCanComment功能时支持发帖本人评论) | textId,commentText,isShowUserName                | POST   |
