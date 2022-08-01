@@ -121,7 +121,7 @@ const roarTextValidation = (data) => {
 const roarTextCommentTextValidation = (data) => {
   const schema = Joi.object({
     textId: Joi.string().min(10).max(50).required(),
-    commentText: Joi.string().min(3).max(510).required(),
+    commentText: Joi.string().min(3).max(310).required(),
     isShowUserName: Joi.boolean().required(),
   });
   //返回验证结果
