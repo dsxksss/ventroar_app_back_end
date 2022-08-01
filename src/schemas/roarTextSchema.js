@@ -27,6 +27,10 @@ const roarTextSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  isCanBack: {
+    type: Boolean,
+    required: true,
+  },
   smil: {
     type: Number,
     min: 0,
