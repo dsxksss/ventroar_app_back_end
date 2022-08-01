@@ -23,19 +23,19 @@ router.put(`/`, [auth], async (req, res) => {
           msg: `没找到改帖子,请检查后重试!`,
         });
     }
-    let { text, isPublic, isShowUserName, isCanBack, userId } = oldText; //结构出需要用的数据
+    let { text, isPublic, isShowUserName, isCanComment, userId } = oldText; //结构出需要用的数据
     if (userId != req.userToken._id) {
       return res.status(403).send({ msg: "您没有权限修改别人的宣泄帖" });
     }
     text = req.body.text;
     isPublic = req.body.isPublic;
     isShowUserName = req.body.isShowUserName;
-    isCanBack = req.body.isCanBack;
+    isCanComment = req.body.isCanComment;
     let newText = await RoarTextDB.findByIdAndUpdate(req.body.textId, {
       text,
       isPublic,
       isShowUserName,
-      isCanBack,
+      isCanComment,
     }, { new: true }); //这里的true表示返回更新后的数据,默认是返回更新前的数据
     return res.status(200).send({ msg: "修改发泄成功", newText });
   } catch (e) {

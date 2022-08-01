@@ -27,7 +27,7 @@ const roarTextSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  isCanBack: {
+  isCanComment: {
     type: Boolean,
     required: true,
   },

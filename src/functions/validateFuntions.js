@@ -23,7 +23,7 @@ const createRoarTextValidation = (data) => {
     text: Joi.string().min(3).max(510).required(),
     isShowUserName: Joi.boolean().required(),
     isPublic: Joi.boolean().required(),
-    isCanBack: Joi.boolean().required(),
+    isCanComment: Joi.boolean().required(),
   });
   //返回验证结果
   return schema.validate(data);
@@ -108,7 +108,7 @@ const roarTextValidation = (data) => {
     text: Joi.string().min(3).max(510).required(),
     isShowUserName: Joi.boolean().required(),
     isPublic: Joi.boolean().required(),
-    isCanBack: Joi.boolean().required(),
+    isCanComment: Joi.boolean().required(),
   });
   //返回验证结果
   return schema.validate(data);

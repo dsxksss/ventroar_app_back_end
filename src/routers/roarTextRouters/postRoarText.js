@@ -28,7 +28,7 @@ router.post(`/`, [auth], async (req, res) => {
         "text",
         "isPublic",
         "isShowUserName",
-        "isCanBack",
+        "isCanComment",
       ]),
     );
 
