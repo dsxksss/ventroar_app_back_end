@@ -128,6 +128,19 @@ const roarTextCommentTextValidation = (data) => {
   return schema.validate(data);
 };
 
+/**
+ * @functions 查询宣泄帖评论数据格式验证函数
+ * @return {boolean} 如果验证正确返回true
+ */
+const findRoarTextCommentValidation = (data) => {
+  const schema = Joi.object({
+    roarTextId: Joi.string().min(10).max(50).required(),
+    commentId: Joi.string().min(10).max(50).required(),
+  });
+  //返回验证结果
+  return schema.validate(data);
+};
+
 exports.createUserValidation = createUserValidation; //创建用户数据格式模板
 exports.createRoarTextValidation = createRoarTextValidation; //创建发泄帖子数据格式模板
 exports.signInValidation = signInValidation; //登录账户数据格式模板
@@ -138,3 +151,4 @@ exports.likesValidation = likesValidation; //点赞格式模板
 exports.idValidation = idValidation; //id格式模板
 exports.roarTextValidation = roarTextValidation; //修改宣泄帖格式模板
 exports.roarTextCommentTextValidation = roarTextCommentTextValidation; //回复宣泄帖格式模板
+exports.findRoarTextCommentValidation = findRoarTextCommentValidation; //查询宣泄帖评论格式模板
