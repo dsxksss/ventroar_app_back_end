@@ -52,12 +52,6 @@ router.post(PATHNAME, async (req, res) => {
         "name",
         "password",
         "email",
-        "friends",
-        "inBox",
-        "createDate",
-        "isAdmin",
-        "isValidate",
-        "isOnline",
       ]),
     );
 
