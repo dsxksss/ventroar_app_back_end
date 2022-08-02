@@ -43,6 +43,7 @@ const roarTextSchema = new mongoose.Schema({
   },
   likeUsers: {
     type: Array,
+    required: true,
   },
   textComments: {
     type: Array,

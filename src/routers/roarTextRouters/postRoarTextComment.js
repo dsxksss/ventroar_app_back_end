@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose"); //操纵MongoDB库
 const { RoarTextDB } = require("../../databases/roarTextDB");
 const { roarTextCommentTextValidation } = require(
   "../../functions/validateFuntions",
@@ -34,7 +35,9 @@ router.post("/", [auth], async (req, res) => {
     }
 
     textComments.push({
+      _id: mongoose.Types.ObjectId(),
       commentUserId: req.userToken._id,
+      commentName: req.userToken.name,
       commentText: req.body.commentText,
       commentUserAvatarUrl: req.userToken.avatarUrl,
       isShowUserName: req.body.isShowUserName,
