@@ -9,9 +9,16 @@ router.delete("/", [auth], async (req, res) => {
   if (!user) {
     res.status(404).send({ msg: "数据库不存在此用户" });
   } else {
-    user.inBox = [];
-    await user.save();
-    res.status(200).send({ msg: "信件已清空", inBox: user.inBox });
+    let { inBox } = user;
+    inBox = [];
+    let newInBox = await UserDB.findByIdAndUpdate(
+      req.userToken._id,
+      { inBox },
+      {
+        new: true,
+      },
+    );
+    res.status(200).send({ msg: "信件已清空", inBox: newInBox });
   }
 });
 

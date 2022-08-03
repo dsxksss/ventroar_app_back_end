@@ -18,12 +18,12 @@
 
 # inBox收件箱api
 
-| api名称            | 路由路径                | 作用                          | 参数               | 方法     |
-| ---------------- | ------------------- | --------------------------- | ---------------- | ------ |
-| **GetUserInBox** | /getUserInBox       | 获取该用户的收件箱数据(inBox as Array) | account,password | GET    |
-| **ReadBoxMsg**   | /readboxmsg/index   | 让提供的index下标信件已读             | params:index     | PUT    |
-| **DeleteBoxMsg** | /deleteboxmsg/index | 删除提供的index下标信件              | params:index     | DELETE |
-| **ClearInBox**   | /clearinbox         | 清空用户收件箱                     | null             | DELETE |
+| api名称            | 路由路径          | 作用                          | 参数               | 方法     |
+| ---------------- | ------------- | --------------------------- | ---------------- | ------ |
+| **GetUserInBox** | /getUserInBox | 获取该用户的收件箱数据(inBox as Array) | account,password | GET    |
+| **ReadBoxMsg**   | /readboxmsg   | 让提供的id信件已读                  | id               | PUT    |
+| **DeleteBoxMsg** | /deleteboxmsg | 删除提供的id信件                   | id               | DELETE |
+| **ClearInBox**   | /clearinbox   | 清空用户收件箱                     | null             | DELETE |
 
 # roarText发泄墙api
 
