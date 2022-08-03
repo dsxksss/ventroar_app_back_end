@@ -52,7 +52,7 @@ npm run dev
 | **UploadImg**           | /uploadimg           | 用于上传图片资源 (返回file基本信息)       | null                  | POST |
 | **UploadAvatar**        | /uploadavatar        | 用于上传用户头像资源 (返回file基本信息)     | null header-token     | POST |
 | **ReUserName**          | /reusername          | 用于修改用户昵称                    | name header-token     | PUT  |
-| **ReEmail**             | /reusername          | 用于修改用户邮箱                    | email header-token    | PUT  |
+| **ReEmail**             | /reemail             | 用于修改用户邮箱                    | email header-token    | PUT  |
 
 # inBox收件箱api
 
