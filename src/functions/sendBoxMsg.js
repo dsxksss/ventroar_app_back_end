@@ -1,3 +1,5 @@
+const mongoose = require("mongoose"); //操纵MongoDB库
+
 /**
  * @name 发送收件箱信件的封装函数
  * @param {string} msg 邮件内容
@@ -13,7 +15,13 @@ exports.MsgType = {
 };
 
 async function sendBoxMsg({ msg, isRead = false, msgType }) {
-  this.push({ msg, msgType, isRead, date: Math.round(new Date() / 1000) }); //信件创建时间
+  this.push({
+    msg,
+    msgType,
+    isRead,
+    _id: mongoose.Types.ObjectId(),
+    date: Math.round(new Date() / 1000),
+  }); //信件创建时间
 }
 
 exports.sendBoxMsg = sendBoxMsg;
