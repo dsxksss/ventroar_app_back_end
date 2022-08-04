@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
     maxlength: 16,
     required: true,
   },
+  authToken:{
+    type:String,
+  },
   isAdmin: {
     type: Boolean,
     required: true,
@@ -51,6 +54,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  
 });
 
 //导出模块
