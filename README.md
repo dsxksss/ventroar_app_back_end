@@ -44,6 +44,7 @@ npm run dev
 | ----------------------- | -------------------- | --------------------------- | --------------------- | ---- |
 | **SignIn**              | /signin              | 登录账号(返回该登录用户基本数据)           | account,password      | POST |
 | **SignUp**              | /signup              | 注册账号(不提供激活但发送验证邮件)          | name,email,password   | POST |
+| **SignOut**             | /signout             | 退出账号(会清除authToken)          | null                  | PUT  |
 | **EmailActivation**     | /emailactivation     | 作用于接受邮箱激活账号                 | null                  | POST |
 | **TokenLogin**          | /tokenlogin          | 仅接受头部token登录账号(返回该登录用户基本数据) | null header-token     | POST |
 | **SendActivationEmail** | /sendactivationemail | 发送激活账号的验证邮件                 | email                 | POST |

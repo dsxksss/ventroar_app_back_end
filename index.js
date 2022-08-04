@@ -133,6 +133,7 @@ if (config.get("runMode") === "production") {
 //导入注册路由
 const signIn = require("./src/routers/signIn");
 const signUp = require("./src/routers/signUp");
+const signOut = require("./src/routers/signOut");
 const tokenLogin = require("./src/routers/tokenLogin");
 const rePassword = require("./src/routers/rePassword");
 const emailActivation = require("./src/routers/emailActivation");
@@ -174,6 +175,7 @@ console.log("morgan[dev] log starting~");
 //注册路由
 app.use("/signin", signIn);
 app.use("/signup", signUp);
+app.use("/signout", signOut);
 app.use("/tokenlogin", tokenLogin);
 app.use("/repassword", rePassword);
 app.use("/emailactivation", emailActivation);

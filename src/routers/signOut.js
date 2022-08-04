@@ -1,0 +1,22 @@
+const express = require("express");
+const { UserDB } = require("../databases/userDB");
+const auth = require("../middlewares/auth");
+const router = express.Router();
+
+router.put(`/`, [auth], async (req, res) => {
+  try {
+    let user = await UserDB.findById(req.userToken._id);
+    if (!user) return res.status(404).send({ msg: "该用户不存在,请检查后重试!" });
+    await UserDB.findByIdAndUpdate(req.userToken._id, {
+      authToken: "null",
+      isOnline: false,
+    });
+    res.status(200).send({ msg: "账号退出成功", isOnline: false });
+  } catch (e) {
+    return res
+      .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
+      .send({ msg: `退出用户请求超时,请检查请求内容,错误信息: ${e}` });
+  }
+});
+
+module.exports = router;

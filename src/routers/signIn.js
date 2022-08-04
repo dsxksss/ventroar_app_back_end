@@ -56,6 +56,12 @@ router.post(PATHNAME, async (req, res) => {
 
       //如果提交密码正确,则返回登录token和成功状态码
       const loginToken = user.createUserToken(); //利用模型类里的自定函数方法利用OOP特性来增加代码复用性和一致性.
+
+      user = await UserDB.findByIdAndUpdate(user._id, {
+        authToken: loginToken,
+        isOnline: true,
+      }, { new: true });
+
       return res
         .header("x-auth-token", loginToken)
         .header("access-control-expose-headers", "x-auth-token") //扩展此自定义头部给客户端访问
@@ -71,6 +77,7 @@ router.post(PATHNAME, async (req, res) => {
             "friends",
             "avatarUrl",
             "inBox",
+            "authToken",
             "createDate",
             "isOnline",
             "isAdmin",
@@ -80,7 +87,7 @@ router.post(PATHNAME, async (req, res) => {
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
-      .send({ msg: `创建用户时请求超时,请检查请求内容,错误信息: ${e}` });
+      .send({ msg: `登录请求超时,请检查请求内容,错误信息: ${e}` });
   }
 });
 
