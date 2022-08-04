@@ -17,25 +17,20 @@ router.put("/", [auth], async (req, res) => {
         });
     }
     let user = await UserDB.findById(req.userToken._id);
-    if (!user) {
-      res.status(404).send({ msg: "数据库不存在此用户" });
-    } else {
-      let { inBox } = user;
-      let msgIsHas = true; //
-      inBox.forEach(async (item) => {
-        if (req.body.id == item._id) {
-          msgIsHas = true;
-          return item.isRead = true;
-        } else {
-          msgIsHas = false;
-        }
-      });
-      if (msgIsHas) {
-        await UserDB.findByIdAndUpdate(req.userToken._id, { inBox });
-        return res.status(200).send({ msg: "信件已读", inBox });
+    let { inBox } = user;
+    let msgIsHas = false;
+    inBox.forEach((item) => {
+      if (item._id == req.body.id) {
+        msgIsHas = true;
+        item.isRead = true;
       }
+    });
+    if (msgIsHas) {
+      await UserDB.findByIdAndUpdate(req.userToken._id, { inBox });
+      return res.status(200).send({ msg: "信件已读", inBox });
+    } else {
+      return res.status(404).send({ msg: "信件不存在!!!" });
     }
-    return res.status(400).send({ msg: "信件不存在!!!" });
   } catch (err) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
