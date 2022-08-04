@@ -72,16 +72,16 @@ router.post(PATHNAME, async (req, res) => {
 
     user.createDate = Math.round(new Date() / 1000); //用户创建时间
     user.avatarUrl = "null"; //用户头像url(默认null)
-    user.authToken = "null";//设置该用户的权限token(默认null)
+    user.authToken = "null"; //设置该用户的权限token(默认null)
     user.isOnline = false; //设置用户登录状态(默认未登录)
     user.isAdmin = false; //设置用户权限,用户是否为管理员(默认不是管理员)
     user.isValidate = false; //设置用户验证状态,点击邮箱网址激活账号(默认未激活)
-    const emailToken = jwt.sign(
+    const emailToken = jwt.sign( //生成暂时token
       {
         _id: user._id, //用户id
         exp: Math.floor(Date.now() / 1000) + 60 * 30, //token失效时间为三十分钟
       },
-      config.get("jwtKey"),
+      config.get("jwtKeyT"),
     );
 
     //测试环境下发送验证邮件

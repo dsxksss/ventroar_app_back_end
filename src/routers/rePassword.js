@@ -1,5 +1,5 @@
 /** 第三方库
- * @import express 
+ * @import express
  * @import config
  * @import jsonwebtoken
  * @import bcryptjs
@@ -26,21 +26,23 @@ const MI = 10;
 router.post(PATHNAME, async (req, res) => {
   //接受数据并且先用现有模型验证格式是否正确;
   const { error } = emailValidation(req.body);
-  if (error)
+  if (error) {
     return res
       .status(400) //客户端请求的语法错误，服务器无法理解
       .send({ msg: `邮箱格式不正确 错误信息: ${error.details[0].message}` });
+  }
   let user = await UserDB.findOne({ email: req.body.email });
-  if (!user)
+  if (!user) {
     return res
       .status(404) //服务器理解请求客户端的请求，但是拒绝执行此请求
       .send({ msg: "数据库数据库没找到此邮箱,请检查邮箱是否错误!" });
-  const emailToken = jwt.sign(
+  }
+  const emailToken = jwt.sign( //生成暂时性token
     {
       _id: user._id, //用户id
-      exp: Math.floor(Date.now() / 1000) + 60 * 30 //token失效时间为三十分钟
+      exp: Math.floor(Date.now() / 1000) + 60 * 30, //token失效时间为三十分钟
     },
-    config.get("jwtKey")
+    config.get("jwtKeyT"),
   );
   //测试环境下发送验证邮件
   if (config.get("runMode") === "development") {
@@ -56,7 +58,7 @@ router.post(PATHNAME, async (req, res) => {
         <p>修改权限的token为:<b>${emailToken}</b></p>
         <p><b>有效时长30分钟</b>复制后返回填写修改,如不是本人务必忽略!⚠️</p>
     </div>
-          `
+          `,
     });
   }
 
@@ -74,7 +76,7 @@ router.post(PATHNAME, async (req, res) => {
         <p>修改权限的token为:<b>${emailToken}</b></p>
         <p><b>有效时长30分钟</b>复制后返回填写修改,如不是本人务必忽略!⚠️</p>
     </div>
-          `
+          `,
     });
   }
   return res
@@ -86,23 +88,29 @@ router.put(`${PATHNAME}:validate`, [checkHeaderToken], async (req, res) => {
   try {
     //接受数据并且先用现有模型验证格式是否正确;
     const { error } = passwordValidation(req.body);
-    if (error)
+    if (error) {
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
         .send({ msg: `密码格式不正确 错误信息: ${error.details[0].message}` });
-    const token = jwt.verify(req.header("x-auth-token"), config.get("jwtKey"));
+    }
+    //验证临时Token是否有效
+    const token = jwt.verify(
+      req.header("x-auth-tokenT"),
+      config.get("jwtKeyT"),
+    );
     let user = await UserDB.findById(token._id);
 
     if (!user) return res.status(404).send({ msg: `数据库不存在此账号!!!` });
 
-    bcryptjs.genSalt(MI, function(_err, salt) {
-      bcryptjs.hash(req.body.password, salt, async function(err, hash) {
-        if (err)
+    bcryptjs.genSalt(MI, function (_err, salt) {
+      bcryptjs.hash(req.body.password, salt, async function (err, hash) {
+        if (err) {
           return res.status(400).send({ msg: `用户信息加密失败,请重新注册 error: ${err}` });
+        }
         user.password = hash;
         user.inBox.sendBoxMsg({
           msg: `您于${timeFormat()}修改密码`,
-          msgType: MsgType.error
+          msgType: MsgType.error,
         });
         await user.save(); //保存用户加密数据
       });

@@ -17,10 +17,11 @@ const router = express.Router();
 router.put("/", auth, async (req, res) => {
   //接受数据并且先用现有模型验证格式是否正确;
   const { error } = emailValidation(req.body);
-  if (error)
+  if (error) {
     return res
       .status(400) //客户端请求的语法错误，服务器无法理解
       .send({ msg: `邮箱格式不正确 错误信息: ${error.details[0].message}` });
+  }
 
   let user = await UserDB.findById(req.userToken._id);
   if (!user) {
@@ -28,17 +29,18 @@ router.put("/", auth, async (req, res) => {
   }
 
   const sameEmail = await UserDB.findOne({ email: req.body.email });
-  if (sameEmail)
+  if (sameEmail) {
     return res
       .status(403) //服务器理解请求客户端的请求，但是拒绝执行此请求
       .send({ msg: "数据库已存在相同邮箱,请直接使用账号密码登录,或更换邮箱" });
+  }
 
-  const emailToken = jwt.sign(
+  const emailToken = jwt.sign( //生成暂时token
     {
       _id: user._id, //用户id
-      exp: Math.floor(Date.now() / 1000) + 60 * 30 //token失效时间为三十分钟
+      exp: Math.floor(Date.now() / 1000) + 60 * 30, //token失效时间为三十分钟
     },
-    config.get("jwtKey")
+    config.get("jwtKeyT"),
   );
 
   //测试环境下发送验证邮件
@@ -52,7 +54,7 @@ router.put("/", auth, async (req, res) => {
       <div>
         <a href="${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
         <p><b>有效时长30分钟</b></p>
-      </div>`
+      </div>`,
     });
   }
 
@@ -69,7 +71,7 @@ router.put("/", auth, async (req, res) => {
           <a href="${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
         <p><b>有效时长30分钟</b></p>
         </div>
-        `
+        `,
     });
   }
 
@@ -77,7 +79,7 @@ router.put("/", auth, async (req, res) => {
   user.email = req.body.email;
   user.inBox.sendBoxMsg({
     msg: `您于${timeFormat()}修改了账号邮箱`,
-    msgType: MsgType.error
+    msgType: MsgType.error,
   });
   await user.save();
   res.status(200).send({ msg: "修改邮箱成功,发送了一条激活邮件,记得激活使用,否则无法使用账号!" });

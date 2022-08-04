@@ -4,8 +4,14 @@
 然后做出相应的操作
 */
 
-module.exports = function(req, res, next) {
-  const token = req.header("x-auth-token");
-  if (!token) return res.status(401).send("拒绝访问!请求头部缺少token");
-  next(); //必须要有next()函数结尾，不然服务回被阻塞到这里
+module.exports = function (req, res, next) {
+  const token = req.header("x-auth-token"); //检查是否存在长期token
+  if (!token) {
+    const token = req.header("x-auth-tokenT"); //检查是否存在短期token
+    if (!token) {
+      return res.status(401).send("拒绝访问!请求头部缺少token");
+    }
+  } else {
+    next(); //必须要有next()函数结尾，不然服务回被阻塞到这里
+  }
 };

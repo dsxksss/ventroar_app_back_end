@@ -19,22 +19,24 @@ router.post(PATHNAME, async (req, res) => {
   try {
     //接受数据并且先用现有模型验证格式是否正确;
     const { error } = emailValidation(req.body);
-    if (error)
+    if (error) {
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
         .send({ msg: `客户端传入的邮箱格式不正确 错误信息: ${error.details[0].message}` });
+    }
     let user = await UserDB.findOne({ email: req.body.email });
-    if (!user)
+    if (!user) {
       return res
         .status(404) //服务器理解请求客户端的请求，但是拒绝执行此请求
         .send({ msg: "数据库不存在此邮箱,请检查邮箱格式后重试" });
+    }
 
-    const emailToken = jwt.sign(
+    const emailToken = jwt.sign( //生成暂时token
       {
         _id: user._id, //用户id
-        exp: Math.floor(Date.now() / 1000) + 60 * 30 //token失效时间为三十分钟
+        exp: Math.floor(Date.now() / 1000) + 60 * 30, //token失效时间为三十分钟
       },
-      config.get("jwtKey")
+      config.get("jwtKeyT"),
     );
 
     //测试环境下发送验证邮件
@@ -49,7 +51,7 @@ router.post(PATHNAME, async (req, res) => {
       <p>您于${timeFormat()}发送的账号验证邮件</p>
         <a href="${DEBUG_HOST}:${DEBUG_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
         <p><b>有效时长30分钟</b></p>
-      </div>`
+      </div>`,
       });
     }
 
@@ -67,7 +69,7 @@ router.post(PATHNAME, async (req, res) => {
           <a href="${RELEASE_HOST}:${RELEASE_PORT}/emailactivation/${emailToken}" >点击我验证账号</a>
           <p><b>有效时长30分钟</b></p>
         </div>
-        `
+        `,
       });
     }
 
