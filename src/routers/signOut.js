@@ -5,8 +5,6 @@ const router = express.Router();
 
 router.put(`/`, [auth], async (req, res) => {
   try {
-    let user = await UserDB.findById(req.userToken._id);
-    if (!user) return res.status(404).send({ msg: "该用户不存在,请检查后重试!" });
     await UserDB.findByIdAndUpdate(req.userToken._id, {
       authToken: "null",
       isOnline: false,

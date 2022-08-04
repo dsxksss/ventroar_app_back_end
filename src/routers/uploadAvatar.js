@@ -11,13 +11,10 @@ router.post(
   [auth, upload(diskStorage.UserAvatar).single("avatar")],
   async (req, res) => {
     let user = await UserDB.findById(req.userToken._id);
-    if (!user) {
-      res.status(404).send({ msg: "数据库不存在此用户" });
-    }
     user.avatarUrl = req.file.filename;
     await user.save();
     res.status(200).send({ msg: "上传头像成功", file: req.file });
-  }
+  },
 );
 
 module.exports = router;

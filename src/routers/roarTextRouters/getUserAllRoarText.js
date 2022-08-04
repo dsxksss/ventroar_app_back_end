@@ -6,12 +6,7 @@ const router = express.Router();
 
 router.get(`/`, [auth], async (req, res) => {
   try {
-    //接受数据并且先用现有模型验证格式是否正确;
-
     let texts = await RoarTextDB.find({ userId: req.userToken._id });
-    if (!texts) {
-      return res.status(404).send({ msg: "没找到该用户的宣泄贴子" });
-    }
     return res.status(200).send({ msg: "获取成功", texts });
   } catch (e) {
     return res

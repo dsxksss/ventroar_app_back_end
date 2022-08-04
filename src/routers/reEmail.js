@@ -24,9 +24,6 @@ router.put("/", auth, async (req, res) => {
   }
 
   let user = await UserDB.findById(req.userToken._id);
-  if (!user) {
-    res.status(404).send({ msg: "数据库不存在此用户" });
-  }
 
   const sameEmail = await UserDB.findOne({ email: req.body.email });
   if (sameEmail) {
@@ -77,6 +74,7 @@ router.put("/", auth, async (req, res) => {
 
   user.isValidate = false; //设置用户验证状态,点击邮箱网址激活账号(默认未激活)
   user.email = req.body.email;
+  user.authToken = "null"; //重置数据库authToken
   user.inBox.sendBoxMsg({
     msg: `您于${timeFormat()}修改了账号邮箱`,
     msgType: MsgType.error,
