@@ -30,6 +30,9 @@ const HASENV = () => {
   if (!config.has("jwtKey")) {
     HASENV_ERROR_NAME.push("jwtKey");
   }
+  if (!config.has("jwtKeyT")) {
+    HASENV_ERROR_NAME.push("jwtKeyT");
+  }
   if (!config.has("sendMailUserName")) {
     HASENV_ERROR_NAME.push("sendMailUserName");
   }
@@ -38,6 +41,7 @@ const HASENV = () => {
   }
   const result = !config.has("runMode") || //启动模式(development and production)
     !config.has("jwtKey") || //jwtTokenKey
+    !config.has("jwtKeyT") || //jwtTokenKey
     !config.has("sendMailUserName") || //邮箱发送服务的邮箱账号
     !config.has("sendMailPassword"); //邮箱发送服务的邮箱密码
   return result;
