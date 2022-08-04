@@ -35,11 +35,11 @@ router.post(PATHNAME, async (req, res) => {
         .status(400) //客户端请求的语法错误，服务器无法理解
         .send({ msg: `该账号未激活,请验证邮箱激活账号!` });
     }
-    if (user.isOnline) {
-      return res
-        .status(400) //客户端请求的语法错误，服务器无法理解
-        .send({ msg: `账号在线,请检查是否已经登录!` });
-    }
+    // if (user.isOnline) {
+    //   return res
+    //     .status(400) //客户端请求的语法错误，服务器无法理解
+    //     .send({ msg: `账号在线,请检查是否已经登录!` });
+    // }
 
     //比对数据库密码是否与提交密码正确
     bcryptjs.compare(req.body.password, user.password, async (err, flag) => {
@@ -59,7 +59,6 @@ router.post(PATHNAME, async (req, res) => {
 
       user = await UserDB.findByIdAndUpdate(user._id, {
         authToken: loginToken,
-        isOnline: true,
       }, { new: true });
 
       return res
