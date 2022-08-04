@@ -21,7 +21,8 @@ module.exports = async function (req, res, next) {
     }
     if (user.authToken == "null") {
       return res.status(403).send({ msg: "用户数据库token不存在,请重新登录后继续操作" });
-    } else if (user.authToken != token) {
+    }
+    if (user.authToken != token) {
       return res.status(403).send({ msg: "该token与数据库token不一致,请重新登录后继续操作" });
     }
     req.userToken = tokenData;
