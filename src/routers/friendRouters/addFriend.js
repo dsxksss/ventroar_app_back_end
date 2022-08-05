@@ -16,17 +16,18 @@ router.post(`/`, [auth], async (req, res) => {
           msg: `客户端传入的用户id信息格式不正确 错误信息: ${error.details[0].message}`,
         });
     }
-    let { inBox } = await UserDB.findById(req.body.id);
-    if (!inBox) {
-      return res.status(404) //客户端请求的语法错误，服务器无法理解
-        .send({
-          msg: `客户端传入的修改发泄帖子信息格式不正确 错误信息: ${error.details[0].message}`,
-        });
+    let user = await UserDB.findById(req.body.id);
+    if (!user) {
+      return res.status(404).send({ msg: `没有找到要添加的用户,请检查后重试` });
+    }
+    if (user._id == req.userToken._id) {
+      return res.status(400).send({ msg: `不能添加自己为自己的好友!` });
     }
 
+    let { inBox } = user;
     let isSend = false;
     inBox.forEach((item) => {
-      if (item.msgType == "addFriend") {
+      if (item.msgType === MsgType.addFriend) {
         if (item.friendId == req.userToken._id) {
           isSend = true;
         }
