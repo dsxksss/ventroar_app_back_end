@@ -80,7 +80,7 @@ const nameValidation = (data) => {
  */
 const likesValidation = (data) => {
   const schema = Joi.object({
-    textId: Joi.string().min(24).max(50).required(),
+    textId: Joi.string().min(24).max(24).required(),
     smil: Joi.boolean(),
     heart: Joi.boolean(),
   });
@@ -93,7 +93,7 @@ const likesValidation = (data) => {
  */
 const idValidation = (data) => {
   const schema = Joi.object({
-    id: Joi.string().min(24).max(50).required(),
+    id: Joi.string().min(24).max(24).required(),
   });
   return schema.validate(data);
 };
@@ -104,7 +104,7 @@ const idValidation = (data) => {
  */
 const roarTextValidation = (data) => {
   const schema = Joi.object({
-    textId: Joi.string().min(24).max(50).required(),
+    textId: Joi.string().min(24).max(24).required(),
     text: Joi.string().min(3).max(510).required(),
     isShowUserName: Joi.boolean().required(),
     isPublic: Joi.boolean().required(),
@@ -120,7 +120,7 @@ const roarTextValidation = (data) => {
  */
 const roarTextCommentTextValidation = (data) => {
   const schema = Joi.object({
-    textId: Joi.string().min(24).max(50).required(),
+    textId: Joi.string().min(24).max(24).required(),
     commentText: Joi.string().min(3).max(310).required(),
     isShowUserName: Joi.boolean().required(),
   });
@@ -134,8 +134,8 @@ const roarTextCommentTextValidation = (data) => {
  */
 const findRoarTextCommentValidation = (data) => {
   const schema = Joi.object({
-    roarTextId: Joi.string().min(24).max(50).required(),
-    commentId: Joi.string().min(24).max(50).required(),
+    roarTextId: Joi.string().min(24).max(24).required(),
+    commentId: Joi.string().min(24).max(24).required(),
   });
   //返回验证结果
   return schema.validate(data);
