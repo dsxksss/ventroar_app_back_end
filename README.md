@@ -79,6 +79,7 @@ npm run dev
 
 # friend好友路由api
 
-| api名称         | 路由路径       | 作用                      | 参数           | 方法   |
-| ------------- | ---------- | ----------------------- | ------------ | ---- |
-| **AddFriend** | /addfriend | 向对方发送好友申请(sendBoxMsg方式) | id(要添加的好友id) | POST |
+| api名称              | 路由路径            | 作用                      | 参数            | 方法   |
+| ------------------ | --------------- | ----------------------- | ------------- | ---- |
+| **AddFriend**      | /addfriend      | 向对方发送好友申请(sendBoxMsg方式) | id(要添加的好友id)  | POST |
+| **AgreeAddFriend** | /agreeaddfriend | 同意好友申请                  | id(接受的申请信件id) | PUT  |
