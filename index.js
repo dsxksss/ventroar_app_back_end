@@ -155,6 +155,7 @@ const getAllRoarText = require("./src/routers/roarTextRouters/getAllRoarText");
 const clickTextLikes = require("./src/routers/roarTextRouters/clickTextLikes");
 const putRoarText = require("./src/routers/roarTextRouters/putRoarText");
 const deleteRoarText = require("./src/routers/roarTextRouters/deleteRoarText");
+const addFriend = require("./src/routers/friendRouters/addFriend");
 const getUserAllRoarText = require(
   "./src/routers/roarTextRouters/getUserAllRoarText",
 );
@@ -197,6 +198,7 @@ app.use("/getallroartext", getAllRoarText);
 app.use("/clicktextlikes", clickTextLikes);
 app.use("/putroartext", putRoarText);
 app.use("/deleteroartext", deleteRoarText);
+app.use("/addfriend", addFriend);
 app.use("/getuserallroartext", getUserAllRoarText);
 app.use("/postroartextcomment", postRoarTextComment);
 app.use("/deleteroartextcomment", deleteRoarTextComment);

@@ -7,21 +7,34 @@ const mongoose = require("mongoose"); //操纵MongoDB库
  * @param {string} msgType 信件类型
  */
 
-exports.MsgType = {
+const MsgType = {
   info: "info", //重要的通知
   unimportant: "unimportant", //不重要的信件
   warning: "warning", //低警告信件
   error: "error", //高警告信件
+  addFriend: "addFriend", //好友申请通知
 };
 
-async function sendBoxMsg({ msg, isRead = false, msgType }) {
-  this.push({
-    msg,
-    msgType,
-    isRead,
-    _id: mongoose.Types.ObjectId(),
-    date: Math.round(new Date() / 1000),
-  }); //信件创建时间
+async function sendBoxMsg({ msg, isRead = false, msgType, friendId = "null" }) {
+  if (msgType === MsgType.addFriend) {
+    this.push({
+      msg,
+      msgType,
+      isRead,
+      friendId,
+      _id: mongoose.Types.ObjectId(),
+      date: Math.round(new Date() / 1000),
+    }); //信件创建时间
+  } else {
+    this.push({
+      msg,
+      msgType,
+      isRead,
+      _id: mongoose.Types.ObjectId(),
+      date: Math.round(new Date() / 1000),
+    }); //信
+  }
 }
 
 exports.sendBoxMsg = sendBoxMsg;
+exports.MsgType = MsgType;

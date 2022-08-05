@@ -76,3 +76,9 @@ npm run dev
 | **DeleteRoarText**        | /deleteroartext        | 删除指定的宣泄帖(支持管理员删除)                    | id                                               | DELETE |
 | **PostRoarTextComment**   | /postroartextcomment   | 评论指定的宣泄帖(未开启isCanComment功能时支持发帖本人评论) | textId,commentText,isShowUserName                | POST   |
 | **DeleteRoarTextComment** | /deleteroartextcomment | 删除指定的宣泄帖(支持发帖本人删除,支持管理员删除,支持评论人删除)   | roarTextId, commentId                            | DELETE |
+
+# friend好友路由api
+
+| api名称         | 路由路径       | 作用                      | 参数           | 方法   |
+| ------------- | ---------- | ----------------------- | ------------ | ---- |
+| **AddFriend** | /addfriend | 向对方发送好友申请(sendBoxMsg方式) | id(要添加的好友id) | POST |
