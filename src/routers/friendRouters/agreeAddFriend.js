@@ -39,7 +39,11 @@ router.put(`/`, [auth], async (req, res) => {
 
     //利用inBox里的发起请求人id获取对方基本信息
     let user = await UserDB.findById(forNowFriendsId);
-    if (!user) return res.status(404).send({ msg: "没找到提供的id用户,检查后再重复此操作!" });
+    if (!user) {
+      return res
+        .status(404)
+        .send({ msg: "没找到提供的id用户,检查后再重复此操作!" });
+    }
 
     //检查是否已经添加了对方id
     if (
@@ -64,7 +68,7 @@ router.put(`/`, [auth], async (req, res) => {
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
-      .send({ msg: `添加好友操作请求超时,请检查请求内容,错误信息: ${e}` });
+      .send({ msg: `同意好友申请超时,请检查请求内容,错误信息: ${e}` });
   }
 });
 
