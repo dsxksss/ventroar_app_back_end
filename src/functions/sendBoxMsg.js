@@ -22,6 +22,7 @@ async function sendBoxMsg({ msg, isRead = false, msgType, friendId = "null" }) {
       msgType,
       isRead,
       friendId,
+      isAgree: false,
       _id: mongoose.Types.ObjectId(),
       date: Math.round(new Date() / 1000),
     }); //信件创建时间

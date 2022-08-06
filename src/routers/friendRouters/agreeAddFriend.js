@@ -26,6 +26,7 @@ router.put(`/`, [auth], async (req, res) => {
         if (item._id == req.body.id) {
           isHas = true;
           item.isRead = true; //并且已读该信件(未来可能会删除这段,保险起见先留下)
+          item.isAgree = true; //是否同意好友申请
           forNowFriendsId = item.friendId;
         }
       }
