@@ -79,7 +79,8 @@ npm run dev
 
 # friend好友路由api
 
-| api名称              | 路由路径            | 作用                      | 参数            | 方法   |
-| ------------------ | --------------- | ----------------------- | ------------- | ---- |
-| **AddFriend**      | /addfriend      | 向对方发送好友申请(sendBoxMsg方式) | id(要添加的好友id)  | POST |
-| **AgreeAddFriend** | /agreeaddfriend | 同意好友申请                  | id(接受的申请信件id) | PUT  |
+| api名称              | 路由路径            | 作用                      | 参数                          | 方法     |
+| ------------------ | --------------- | ----------------------- | --------------------------- | ------ |
+| **AddFriend**      | /addfriend      | 向对方发送好友申请(sendBoxMsg方式) | id(要添加的好友id)                | POST   |
+| **AgreeAddFriend** | /agreeaddfriend | 同意好友申请                  | id(接受的申请信件id)               | PUT    |
+| **RemoveFriend**   | /removefriend   | 删除指定id好友                | id(要删除的好友id,必须是已存在好友列表内的id) | DELETE |
