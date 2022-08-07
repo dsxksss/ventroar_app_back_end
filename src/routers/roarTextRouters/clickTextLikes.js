@@ -34,12 +34,15 @@ router.put(`/`, [auth], async (req, res) => {
     smil += req.body.smil ? 1 : 0;
     heart += req.body.heart ? 1 : 0;
     likeUsers.push(req.userToken._id); //记录该用户点赞记录
-    await RoarTextDB.findByIdAndUpdate(req.body.textId, {
+    let newData = await RoarTextDB.findByIdAndUpdate(req.body.textId, {
       smil,
       heart,
       likeUsers,
+    }, { new: true });
+    return res.status(200).send({
+      msg: "点赞成功",
+      result: { smil: newData.smil, heart: newData.heart },
     });
-    return res.status(200).send({ msg: "点赞成功" });
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。

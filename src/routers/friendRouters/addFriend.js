@@ -43,7 +43,7 @@ router.post(`/`, [auth], async (req, res) => {
       msgType: MsgType.addFriend,
       friendId: req.userToken._id,
     });
-    await UserDB.findByIdAndUpdate(req.body.id, { result: inBox });
+    await UserDB.findByIdAndUpdate(req.body.id, { inBox });
     return res.status(200).send({ msg: "好友请求已发送,等待对方同意" });
   } catch (e) {
     return res
