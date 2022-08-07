@@ -1,7 +1,6 @@
 //第三方库
 const express = require("express");
 const bcryptjs = require("bcryptjs");
-const lodash = require("lodash"); //对象操作工具库
 const jwt = require("jsonwebtoken");
 const config = require("config"); //读取配置文件信息库
 
@@ -48,11 +47,11 @@ router.post(PATHNAME, async (req, res) => {
 
     //确认无误后创建数据
     user = new UserDB(
-      lodash.pick(req.body, [
-        "name",
-        "password",
-        "email",
-      ]),
+      {
+        name: req.body.name,
+        password: req.body.password,
+        email: req.body.email,
+      },
     );
 
     // // 比对

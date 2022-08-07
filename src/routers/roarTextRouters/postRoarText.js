@@ -1,8 +1,4 @@
-//第三方库
 const express = require("express");
-const lodash = require("lodash"); //对象操作工具库
-
-//本地库及全局变量
 const { createRoarTextValidation } = require(
   "../../functions/validateFuntions",
 );
@@ -24,12 +20,12 @@ router.post(`/`, [auth], async (req, res) => {
 
     //确认无误后创建数据
     let text = new RoarTextDB(
-      lodash.pick(req.body, [
-        "text",
-        "isPublic",
-        "isShowUserName",
-        "isCanComment",
-      ]),
+      {
+        text: req.body.text,
+        isPublic: req.body.isPublic,
+        isShowUserName: req.body.isShowUserName,
+        isCanComment: req.body.isCanComment,
+      },
     );
 
     text.userId = req.userToken._id; //保存发帖人id
