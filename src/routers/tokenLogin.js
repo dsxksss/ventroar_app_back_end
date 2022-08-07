@@ -26,10 +26,16 @@ router.post(`${PATHNAME}`, [checkHeaderToken], async (req, res) => {
       createDate: 1,
       avatarUrl: 1,
       isOnline: 1,
-      isAdmin: 1
+      isAdmin: 1,
     });
     if (!user) return res.status(404).send({ msg: `数据库不存在此账号!!!` });
-    return res.status(200).send({ msg: `登录成功`, ...user._doc }); //注册成功后反馈给客户端一个头部token
+
+    if (user.authToken != "null") {
+      if (user.authToken == req.userToken) {
+        return res.status(200).send({ msg: `登录成功`, ...user._doc }); //注册成功后反馈给客户端一个头部token
+      }
+    }
+    return res.status(400).send({ msg: `期望token不符合,请重新登录后重试` });
   } catch (error) {
     return res
       .status(400)
