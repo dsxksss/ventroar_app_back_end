@@ -9,14 +9,14 @@ router.delete("/", [auth], async (req, res) => {
     let user = await UserDB.findById(req.userToken._id);
     let { inBox } = user;
     inBox = [];
-    let newInBox = await UserDB.findByIdAndUpdate(
+    let { inBox: newInBox } = await UserDB.findByIdAndUpdate(
       req.userToken._id,
       { inBox },
       {
         new: true,
       },
     );
-    res.status(200).send({ msg: "信件已清空", inBox: newInBox });
+    res.status(200).send({ msg: "信件已清空", result: newInBox });
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。

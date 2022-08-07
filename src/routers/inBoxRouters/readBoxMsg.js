@@ -19,15 +19,17 @@ router.put("/", [auth], async (req, res) => {
     let user = await UserDB.findById(req.userToken._id);
     let { inBox } = user;
     let msgIsHas = false;
+    let newInBoxMsg;
     inBox.forEach((item) => {
       if (item._id == req.body.id) {
         msgIsHas = true;
         item.isRead = true;
+        newInBoxMsg = item;
       }
     });
     if (msgIsHas) {
       await UserDB.findByIdAndUpdate(req.userToken._id, { inBox });
-      return res.status(200).send({ msg: "信件已读", inBox });
+      return res.status(200).send({ msg: "信件已读", result: newInBoxMsg });
     } else {
       return res.status(404).send({ msg: "信件不存在!!!" });
     }

@@ -57,7 +57,7 @@ router.delete("/", [auth], async (req, res) => {
       textComments,
     }, { new: true }); //这里的true表示返回更新后的数据,默认是返回更新前的数据
 
-    return res.status(200).send({ msg: "评论已删除~", newText }); //注册成功后反馈给客户端一个头部token
+    return res.status(200).send({ msg: "评论已删除~", result: newText }); //注册成功后反馈给客户端一个头部token
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
