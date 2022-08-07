@@ -32,7 +32,7 @@ router.post(`${PATHNAME}`, [checkHeaderToken], async (req, res) => {
 
     if (user.authToken != "null") {
       if (user.authToken == req.userToken) {
-        return res.status(200).send({ msg: `登录成功`, result: [...user._doc] });
+        return res.status(200).send({ msg: `登录成功`, result: user });
       }
     }
     return res.status(400).send({ msg: `期望token不符合,请重新登录后重试` });
