@@ -81,7 +81,7 @@ router.put("/", auth, async (req, res) => {
       msgType: MsgType.error,
     });
     await user.save();
-    res.status(200).send({ msg: "修改邮箱成功,发送了一条激活邮件,记得激活使用,否则无法使用账号!" });
+    return res.status(200).send({ msg: "修改邮箱成功,发送了一条激活邮件,记得激活使用,否则无法使用账号!" });
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
