@@ -13,7 +13,7 @@ router.put("/", [auth], async (req, res) => {
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
         .send({
-          msg: `客户端传入要已读信件Id信息格式不正确 错误信息: ${error.details[0].message}`,
+          msg: `客户端传入要已读信件id信息格式不正确 错误信息: ${error.details[0].message}`,
         });
     }
     let user = await UserDB.findById(req.userToken._id);

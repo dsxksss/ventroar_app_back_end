@@ -13,14 +13,14 @@ router.delete(`/`, [auth], async (req, res) => {
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
         .send({
-          msg: `客户端传入的修改发泄帖子信息格式不正确 错误信息: ${error.details[0].message}`,
+          msg: `客户端传入要删除发泄帖子id格式不正确 错误信息: ${error.details[0].message}`,
         });
     }
     let text = await RoarTextDB.findById(req.body.id);
     if (!text) {
       return res.status(404) //客户端请求的语法错误，服务器无法理解
         .send({
-          msg: `没找到改帖子,请检查后重试!`,
+          msg: `没找到该帖子,请检查后重试!`,
         });
     }
     let { userId } = text; //结构出需要用的数据
@@ -38,7 +38,7 @@ router.delete(`/`, [auth], async (req, res) => {
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
-      .send({ msg: `修改发泄帖子请求超时,请检查请求内容,错误信息: ${e}` });
+      .send({ msg: `删除帖子操作超时,请检查请求内容,错误信息: ${e}` });
   }
 });
 

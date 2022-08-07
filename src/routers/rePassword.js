@@ -29,7 +29,7 @@ router.post(PATHNAME, async (req, res) => {
   if (error) {
     return res
       .status(400) //客户端请求的语法错误，服务器无法理解
-      .send({ msg: `邮箱格式不正确 错误信息: ${error.details[0].message}` });
+      .send({ msg: `传入的邮箱格式不正确 错误信息: ${error.details[0].message}` });
   }
   let user = await UserDB.findOne({ email: req.body.email });
   if (!user) {
@@ -91,7 +91,7 @@ router.put(`${PATHNAME}:validate`, [checkHeaderToken], async (req, res) => {
     if (error) {
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
-        .send({ msg: `密码格式不正确 错误信息: ${error.details[0].message}` });
+        .send({ msg: `传入密码格式不正确错误信息: ${error.details[0].message}` });
     }
     //验证临时Token是否有效
     const token = jwt.verify(

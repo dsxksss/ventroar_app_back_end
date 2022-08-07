@@ -23,7 +23,7 @@ router.post("/", [auth], async (req, res) => {
     if (!oldText) {
       return res.status(404) //客户端请求的语法错误，服务器无法理解
         .send({
-          msg: `没找到改帖子,请检查后重试!`,
+          msg: `没找到该帖子,请检查后重试!`,
         });
     }
 

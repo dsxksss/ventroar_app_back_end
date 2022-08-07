@@ -15,7 +15,7 @@ router.delete("/", [auth], async (req, res) => {
       return res
         .status(400) //客户端请求的语法错误，服务器无法理解
         .send({
-          msg: `客户端传入的回帖格式不正确 错误信息: ${error.details[0].message}`,
+          msg: `客户端传入的删除评论数据格式不正确 错误信息: ${error.details[0].message}`,
         });
     }
 
