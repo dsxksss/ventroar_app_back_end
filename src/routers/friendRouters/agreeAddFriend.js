@@ -61,7 +61,7 @@ router.put(`/`, [auth], async (req, res) => {
     //将自己添加至对方用户内
     user.friends.push(req.userToken._id);
     user.friends = [...new Set(user.friends)]; //设置为set去重,重新存储
-    await UserDB.findByIdAndUpdate(forNowFriendsId, { result: user.friends });
+    await UserDB.findByIdAndUpdate(forNowFriendsId, { friends: user.friends });
 
     //确认无误后返回结果给客户端
     return res.status(200).send({ msg: `你们已经成为好友啦~` });

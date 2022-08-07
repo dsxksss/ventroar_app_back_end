@@ -24,7 +24,7 @@ router.delete(`/`, [auth], async (req, res) => {
     const newFriends = await UserDB.findByIdAndUpdate(req.userToken._id, {
       friends,
     }, { new: true });
-    return res.status(200).send({ msg: `成功删除该好友`, result: newFriends });
+    return res.status(200).send({ msg: `成功删除该好友`, result: newFriends.friends });
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
