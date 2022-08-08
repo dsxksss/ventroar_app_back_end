@@ -177,8 +177,11 @@ app.use(cors());
 //开放静态资源
 app.use(express.static(path.join(__dirname, "static")));
 //环境为开发环境启动的log
-app.use(morgan("dev"));
-console.log("morgan[dev] log starting~");
+let logStream = fs.createWriteStream(path.join(__dirname, "ventroar_app.log"), {
+  flags: "a",
+});
+app.use(morgan("combined", { stream: logStream }));
+console.log("morgan[combined] log starting~");
 
 //注册路由
 app.use("/signin", signIn);
