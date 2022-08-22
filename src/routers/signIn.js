@@ -26,7 +26,7 @@ router.post(PATHNAME, async (req, res) => {
       if (!user) {
         return res
           .status(404) //客户端请求的语法错误，服务器无法理解
-          .send({ msg: `邮箱或用户名不存在,请检查邮箱后重新登录!` });
+          .send({ msg: `账号或密码不存在,请检查后重新登录!` });
       }
     }
     if (!user.isValidate) {
