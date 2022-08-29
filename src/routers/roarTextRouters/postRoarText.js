@@ -33,6 +33,7 @@ router.post(`/`, [auth], async (req, res) => {
     text.smil = 0; //初始化笑脸数量(默认0)
     text.heart = 0; //初始化爱心数量(默认0)
     text.likeUsers = [];
+    text.textImages = [];
     text.textComments = [];
 
     await text.save();

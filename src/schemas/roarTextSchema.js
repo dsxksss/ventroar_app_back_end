@@ -45,6 +45,10 @@ const roarTextSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
+  textImages: {
+    type: Array,
+    required: true,
+  },
   textComments: {
     type: Array,
     required: true,
