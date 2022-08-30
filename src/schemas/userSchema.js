@@ -53,6 +53,8 @@ const userSchema = new mongoose.Schema({
   avatarUrl: {
     type: String,
     required: true,
+    minlength: 3,
+    maxlength: 50,
   },
 });
 
