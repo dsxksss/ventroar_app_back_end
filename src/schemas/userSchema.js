@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     type: String, //类型
     required: true, //必填项
     minlength: 3, //最小值
-    maxlength: 8, //最大值
+    maxlength: 10, //最大值
     unique: true, //唯一性
   },
   password: {
@@ -27,8 +27,8 @@ const userSchema = new mongoose.Schema({
     maxlength: 16,
     required: true,
   },
-  authToken:{
-    type:String,
+  authToken: {
+    type: String,
   },
   isAdmin: {
     type: Boolean,
@@ -54,7 +54,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  
 });
 
 //导出模块
