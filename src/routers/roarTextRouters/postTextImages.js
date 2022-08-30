@@ -1,5 +1,7 @@
 const express = require("express");
 const multer = require("multer");
+const fs = require("fs");
+const { STATICPATH } = require("../../../staticPathProvider");
 const auth = require("../../middlewares/auth");
 const { upload, diskStorage } = require("../../middlewares/upload");
 const checkHasRoar = require("../../middlewares/checkHasRoar");
@@ -22,6 +24,11 @@ router.post(
         req.files = req.files;
         if (req.text.userId !== req.userToken._id) {
           return res.status(400).send({ msg: "你没有权限这么做!" });
+        }
+        if (req.text.textImages !== []) {
+          for (let e of req.text.textImages) {
+            fs.unlink(`${STATICPATH}/images/${e}`, (_) => {});
+          }
         }
         req.text.textImages = [];
         req.files.forEach((item) => req.text.textImages.push(item.filename));

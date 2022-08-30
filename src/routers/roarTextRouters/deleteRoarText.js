@@ -1,7 +1,8 @@
 const express = require("express");
+const fs = require("fs");
 const { RoarTextDB } = require("../../databases/roarTextDB");
-
 const { idValidation } = require("../../functions/validateFuntions");
+const { STATICPATH } = require("../../../staticPathProvider");
 const auth = require("../../middlewares/auth");
 const router = express.Router();
 
@@ -34,6 +35,14 @@ router.delete(`/`, [auth], async (req, res) => {
       return res.status(403).send({ msg: "您没有权限删除不属于自己的宣泄帖" });
     }
     const result = await RoarTextDB.findByIdAndDelete(req.body.id); //这里的true表示返回更新后的数据,默认是返回更新前的数据
+
+    //删除图片
+    if (result.textImages !== []) {
+      for (let e of result.textImages) {
+        fs.unlink(`${STATICPATH}/images/${e}`, (_) => {});
+      }
+    }
+
     return res.status(200).send({ msg: "删除宣泄帖成功", result });
   } catch (e) {
     return res

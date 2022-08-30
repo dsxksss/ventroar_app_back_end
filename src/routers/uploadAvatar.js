@@ -1,8 +1,9 @@
 const express = require("express");
+const fs = require("fs");
 const auth = require("../middlewares/auth");
-
 const router = express.Router();
 const { UserDB } = require("../databases/userDB");
+const { STATICPATH } = require("../../staticPathProvider");
 const { upload, diskStorage } = require("../middlewares/upload");
 
 //upload.single() 只接受单个文件上传
@@ -12,6 +13,7 @@ router.post(
   async (req, res) => {
     try {
       let user = await UserDB.findById(req.userToken._id);
+      fs.unlink(`${STATICPATH}/avatars/${user.avatarUrl}`, (_) => {});
       user.avatarUrl = req.file.filename;
       await user.save();
       return res.status(200).send({ msg: "上传头像成功", result: req.file });
