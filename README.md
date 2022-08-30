@@ -115,8 +115,8 @@ npm run dev
 | **ClickTextLikes**        | YES header-token         | textId,smil(bool),heart(bool)                    | { smil,heart }                                                                                                                       |
 | **PutRoarText**           | YES header-token         | textId,text,isPublic,isShowUserName,isCanComment | { _id,text,isPublic,isShowUserName,isCanComment,likeUsers[ ],textImages[ ],textComments[ ],userId,createDate,smil,heart }            |
 | **DeleteRoarText**        | YES header-token         | id(宣泄贴ID)                                        | { _id,text,isPublic,isShowUserName,isCanComment,likeUsers[ ],textImages[ ],textComments[ ],userId,createDate,smil,heart } -> 被删除的宣泄贴 |
-| **PostRoarTextComment**   | YSE header-token         | textId,commentText,isShowUserName                | RoarText{ ... , textComments:[ { _id,commentUserId,commentName,commentText,commentUserAvatarUrl,isShowUserName,date } ] }            |
-| **DeleteRoarTextComment** | YES header-token         | roarTextId, commentId                            | RoarText{ ... , textComments:[ { _id,commentUserId,commentName,commentText,commentUserAvatarUrl,isShowUserName,date } ] }            |
+| **PostRoarTextComment**   | YSE header-token         | textId,commentText,isShowUserName                | RoarText{ ... , textComments:[ { _id,commentUserId,commentText,isShowUserName,createDate } ] }                                       |
+| **DeleteRoarTextComment** | YES header-token         | roarTextId, commentId                            | RoarText{ ... , textComments:[ { _id,commentUserId,commentText,isShowUserName,createDate } ] }                                       |
 
 # 4、friend好友路由api
 

@@ -37,11 +37,9 @@ router.post("/", [auth], async (req, res) => {
     textComments.push({
       _id: mongoose.Types.ObjectId(),
       commentUserId: req.userToken._id,
-      commentName: req.userToken.name,
       commentText: req.body.commentText,
-      commentUserAvatarUrl: req.userToken.avatarUrl,
       isShowUserName: req.body.isShowUserName,
-      date: Math.round(new Date() / 1000), //用户创建时间
+      createDate: Math.round(new Date() / 1000), //用户创建时间
     });
 
     let newText = await RoarTextDB.findByIdAndUpdate(req.body.textId, {
