@@ -32,9 +32,9 @@ router.post(`/`, [auth], async (req, res) => {
     text.createDate = Math.round(new Date() / 1000); //用户创建时间
     text.smil = 0; //初始化笑脸数量(默认0)
     text.heart = 0; //初始化爱心数量(默认0)
-    text.likeUsers = [];
-    text.textImages = [];
-    text.textComments = [];
+    text.likeUsers = []; //初始化点赞列表
+    text.textImages = []; //初始化宣泄贴图片url列表
+    text.textComments = []; //初始化宣泄贴评论列表
 
     await text.save();
     return res.status(200).send({ msg: "发帖成功,调整心态明天会更好的~" }); //注册成功后反馈给客户端一个头部token
