@@ -11,7 +11,6 @@
 | **TokenLogin**          | /tokenlogin          | 仅接受头部token登录账号(返回该登录用户基本数据) | POST |
 | **RePassword**          | /repassword          | 发送修改密码的验证邮件                 | POST |
 | **RePasswordValidate**  | /repassword/validate | 用于接受邮箱修改密码                  | PUT  |
-| **UploadImg**           | /uploadimg           | 用于上传图片资源 (返回file基本信息)       | POST |
 | **UploadAvatar**        | /uploadavatar        | 用于上传用户头像资源 (返回file基本信息)     | POST |
 | **ReUserName**          | /reusername          | 用于修改用户昵称                    | PUT  |
 | **SendActivationEmail** | /sendactivationemail | 发送激活账号的验证邮件                 | POST |
@@ -28,7 +27,6 @@
 | **TokenLogin**          | YES header-token         | NULL                | { _id,name,email,friends[ ],inBox[ ],createDate,avatarUrl,isOnline,isAdmin }           |
 | **RePassword**          | NO                       | email               | NULL                                                                                   |
 | **RePasswordValidate**  | YSE header-tokenT        | password            | NULL                                                                                   |
-| **UploadImg**           | NO                       | NULL                | { file:这个file的基本信息 }                                                                   |
 | **UploadAvatar**        | YES header-token         | NULL                | { file:这个file的基本信息 }                                                                   |
 | **ReUserName**          | YES header-token         | name                | NULL                                                                                   |
 | **SendActivationEmail** | NO                       | email               | NULL                                                                                   |
