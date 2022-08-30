@@ -5,7 +5,7 @@ const fs = require("fs");
  * @param {string}      diskStorage 存储模板
  * @return {multer.Multer}      result Multer实例
  */
-const upload = diskStorage => {
+const upload = function (diskStorage) {
   const result = multer({ storage: multer.diskStorage(diskStorage) });
   return result;
 };
@@ -21,7 +21,7 @@ const Img = {
   },
   filename: (_req, file, callback) => {
     callback(null, `${Date.now()}--${file.originalname}`);
-  }
+  },
 };
 
 //存储用户头像文件的存储模板
@@ -33,11 +33,11 @@ const UserAvatar = {
   },
   filename: (req, file, callback) => {
     callback(null, `${req.userToken._id}--${file.originalname}`);
-  }
+  },
 };
 
 exports.upload = upload;
 exports.diskStorage = {
   Img,
-  UserAvatar
+  UserAvatar,
 };
