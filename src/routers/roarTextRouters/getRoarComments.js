@@ -39,7 +39,7 @@ router.get(`/`, async (req, res) => {
             commentText: comment.commentText,
             isShowUserName: comment.isShowUserName,
             createDate: comment.createDate,
-            commentUserId: comment.commentUserId,
+            userId: comment.commentUserId,
             userName: item.name,
             userEmail: item.email,
             userAvatarUrl: item.avatarUrl,
