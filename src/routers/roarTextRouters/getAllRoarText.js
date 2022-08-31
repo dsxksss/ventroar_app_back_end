@@ -1,6 +1,6 @@
-const { UserDB } = require("../../databases/UserDB");
-const { RoarTextDB } = require("../../databases/roarTextDB");
 const express = require("express");
+const { UserDB } = require("../../databases/userDB");
+const { RoarTextDB } = require("../../databases/roarTextDB");
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
