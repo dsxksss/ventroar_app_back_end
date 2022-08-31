@@ -1,11 +1,10 @@
 const express = require("express");
 const multer = require("multer");
-const fs = require("fs");
-const { STATICPATH } = require("../../../staticPathProvider");
 const auth = require("../../middlewares/auth");
 const { upload, diskStorage } = require("../../middlewares/upload");
 const checkHasRoar = require("../../middlewares/checkHasRoar");
 const { RoarTextDB } = require("../../databases/roarTextDB");
+const { deleteFile, staticDir } = require("../../functions/deleteFile");
 const checkImagesUpload = upload(diskStorage.Img).array("images", 4);
 const router = express.Router();
 
@@ -16,22 +15,28 @@ router.post(
   async (req, res) => {
     try {
       checkImagesUpload(req, res, async function (err) {
-        if (err instanceof multer.MulterError) {
+        if (typeof req.files === "undefined") {
+          return res.status(400).send({ msg: "不能上传空内容,请检查后重试!" });
+        } else if (err instanceof multer.MulterError) {
           return res.status(400).send({ msg: "上传图片发生错误,最多只允许发送4张图片!" });
         } else if (err) {
           return res.status(400).send({ msg: "上传图片发生错误,最多只允许发送4张图片!" });
         }
-        req.files = req.files;
+
         if (req.text.userId !== req.userToken._id) {
           return res.status(400).send({ msg: "你没有权限这么做!" });
         }
-        if (req.text.textImages !== []) {
-          for (let e of req.text.textImages) {
-            fs.unlink(`${STATICPATH}/images/${e}`, (_) => {});
-          }
-        }
+
+        //暂时存储旧照片集url
+        let oldImagesUrl = req.text.textImages;
+        //存储新照片集url
         req.text.textImages = [];
         req.files.forEach((item) => req.text.textImages.push(item.filename));
+        if (req.text.textImages !== []) {
+          for (let e of oldImagesUrl) {
+            deleteFile(staticDir.images, e);
+          }
+        }
 
         let newText = await RoarTextDB.findByIdAndUpdate(
           req.params.roarTextId,
