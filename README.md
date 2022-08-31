@@ -12,28 +12,24 @@ git clone https://github.com/dsxksss/ventraor_app_back_end.git
 cd ventraor_app_back_end
 ```
 
-## 3、利用yarn或npm安装必要库
+## 3、利用yarn安装必要库
 
 ```bash
 yarn install
 ```
 
-- **或者**
+## 4、以yarn run 方式以开发模式运行项目
+
+- **windows**
 
 ```bash
-npm install
+yarn run dev-win
 ```
 
-## 4、yarn或npm二选一方式以开发模式运行项目
+- **mac或者linux**
 
 ```bash
-yarn run dev
-```
-
-- **或者**
-
-```bash
-npm run dev
+yarn run dev-mac
 ```
 
 # API说明(路由路径规范为全小写)
