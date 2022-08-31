@@ -1,8 +1,7 @@
 const express = require("express");
-const fs = require("fs");
 const { RoarTextDB } = require("../../databases/roarTextDB");
 const { idValidation } = require("../../functions/validateFuntions");
-const { STATICPATH } = require("../../../staticPathProvider");
+const { deleteFile, staticDir } = require("../../functions/deleteFile");
 const auth = require("../../middlewares/auth");
 const router = express.Router();
 
@@ -28,6 +27,12 @@ router.delete(`/`, [auth], async (req, res) => {
     //拥有管理员权限的删除操作
     if (req.userToken.isAdmin) {
       let result = await RoarTextDB.findByIdAndDelete(req.body.id); //这里的true表示返回更新后的数据,默认是返回更新前的数据
+      //删除残留图片
+      if (result.textImages !== []) {
+        for (let e of result.textImages) {
+          deleteFile(staticDir.images, e);
+        }
+      }
       return res.status(200).send({ msg: "管理员删除宣泄帖成功", result });
     }
     //普通用户的删除操作
@@ -36,10 +41,10 @@ router.delete(`/`, [auth], async (req, res) => {
     }
     const result = await RoarTextDB.findByIdAndDelete(req.body.id); //这里的true表示返回更新后的数据,默认是返回更新前的数据
 
-    //删除图片
+    //删除残留图片
     if (result.textImages !== []) {
       for (let e of result.textImages) {
-        fs.unlink(`${STATICPATH}/images/${e}`, (_) => {});
+        deleteFile(staticDir.images, e);
       }
     }
 
