@@ -159,6 +159,9 @@ const addFriend = require("./src/routers/friendRouters/addFriend");
 const agreeAddFriend = require("./src/routers/friendRouters/agreeAddFriend");
 const removeFriend = require("./src/routers/friendRouters/removeFriend");
 const getAllFriend = require("./src/routers/friendRouters/getAllFriend");
+const getRoarComments = require(
+  "./src/routers/roarTextRouters/getRoarComments",
+);
 const getUserAllRoarText = require(
   "./src/routers/roarTextRouters/getUserAllRoarText",
 );
@@ -208,6 +211,7 @@ app.use("/addfriend", addFriend);
 app.use("/agreeaddfriend", agreeAddFriend);
 app.use("/removefriend", removeFriend);
 app.use("/getallfriend", getAllFriend);
+app.use("/getroarcomments", getRoarComments);
 app.use("/getuserallroartext", getUserAllRoarText);
 app.use("/postroartextcomment", postRoarTextComment);
 app.use("/deleteroartextcomment", deleteRoarTextComment);
