@@ -6,7 +6,10 @@ const router = express.Router();
 router.get("/", async (_req, res) => {
   //获取全部发泄内容并按心数和笑脸数升序获得
   try {
-    const oldTexts = await RoarTextDB.find().sort({ heart: -1, smil: -1 });
+    const oldTexts = await RoarTextDB.find({ isPublic: true }).sort({
+      heart: -1,
+      smil: -1,
+    });
     let usersId = [];
     let newTexts = [];
     oldTexts.forEach((roar) => usersId.push(roar.userId));
@@ -23,7 +26,6 @@ router.get("/", async (_req, res) => {
           newTexts.push({
             _id: textItem._id,
             text: textItem.text,
-            isPublic: textItem.isPublic,
             isShowUserName: textItem.isShowUserName,
             isCanComment: textItem.isCanComment,
             likeUsers: textItem.likeUsers,
@@ -33,9 +35,9 @@ router.get("/", async (_req, res) => {
             smil: textItem.smil,
             heart: textItem.heart,
             userId: textItem.userId,
-            userName: item.name,
-            userEmail: item.email,
-            userAvatarUrl: item.avatarUrl,
+            userName: textItem.isShowUserName ? item.name : "匿名者",
+            userEmail: textItem.isShowUserName ? item.email : "匿名邮箱",
+            userAvatarUrl: textItem.isShowUserName ? item.avatarUrl : "null",
           });
         }
       });

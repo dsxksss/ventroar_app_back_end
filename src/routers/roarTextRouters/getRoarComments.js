@@ -40,9 +40,9 @@ router.get(`/`, async (req, res) => {
             isShowUserName: comment.isShowUserName,
             createDate: comment.createDate,
             userId: comment.commentUserId,
-            userName: item.name,
-            userEmail: item.email,
-            userAvatarUrl: item.avatarUrl,
+            userName: comment.isShowUserName ? item.name : "匿名者",
+            userEmail: comment.isShowUserName ? item.email : "匿名邮箱",
+            userAvatarUrl: comment.isShowUserName ? item.avatarUrl : "null",
           });
         }
       });
