@@ -30,7 +30,7 @@ router.get("/", async (_req, res) => {
             isCanComment: textItem.isCanComment,
             likeUsers: textItem.likeUsers,
             textImages: textItem.textImages,
-            textComments: textItem.textComments.length,
+            textCommentCount: textItem.textComments.length,
             createDate: textItem.createDate,
             smil: textItem.smil,
             heart: textItem.heart,
