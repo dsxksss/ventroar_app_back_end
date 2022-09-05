@@ -22,9 +22,9 @@ module.exports = async function (req, res, next) {
     if (user.authToken == "null") {
       return res.status(403).send({ msg: "用户数据库token不存在,请重新登录后继续操作" });
     }
-    if (user.authToken != token) {
-      return res.status(403).send({ msg: "该token与数据库token不一致,请重新登录后继续操作" });
-    }
+    // if (user.authToken != token) {
+    //   return res.status(403).send({ msg: "该token与数据库token不一致,请重新登录后继续操作" });
+    // }
     req.userToken = tokenData;
     next(); //必须要有next()函数结尾，不然服务回被阻塞到这里
   } catch (error) {
