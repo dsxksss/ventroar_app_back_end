@@ -12,5 +12,5 @@ module.exports = function (req, res, next) {
       return res.status(401).send("拒绝访问!请求头部缺少token");
     }
   }
-  next(); //必须要有next()函数结尾，不然服务回被阻塞到这里
+  next(); //必须要有next()函数结尾，不然服务会被阻塞到这里
 };
