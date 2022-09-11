@@ -41,7 +41,11 @@ const roarTextSchema = new mongoose.Schema({
     min: 0,
     max: 1,
   },
-  likeUsers: {
+  smilLikeUsers: {
+    type: Array,
+    required: true,
+  },
+  heartLikeUsers: {
     type: Array,
     required: true,
   },
