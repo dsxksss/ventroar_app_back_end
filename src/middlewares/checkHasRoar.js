@@ -6,5 +6,5 @@ module.exports = async function (req, res, next) {
     return res.status(404).send({ msg: "没有找到该宣泄贴,请检查参数再确认" });
   }
   req.text = text;
-  next(); //必须要有next()函数结尾，不然服务会被阻塞到这里
+  return next(); //必须要有next()函数结尾，不然服务会被阻塞到这里
 };
