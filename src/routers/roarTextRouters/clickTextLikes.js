@@ -20,20 +20,27 @@ router.put(`/`, [auth], async (req, res) => {
     if (!text) {
       return res.status(404) //客户端请求的语法错误，服务器无法理解
         .send({
-          msg: `没找到改帖子,请检查后重试!`,
+          msg: `没找到该帖子,请检查后重试!`,
         });
     }
     //检查是否存在历史点赞记录
     //some此方法是将所有元素进行判断返回一个布尔值，如果存在元素都满足判断条件，
     //则返回true，若所有元素都不满足判断条件，则返回false
-    if (text.likeUsers.some((userId) => userId === req.userToken._id)) {
-      return res.status(403).send({ msg: `你已经点了爱心笑脸,不能重复点了` });
-    }
-    //如果没问题再去增加点赞数量,并且记录该用户点赞记录
     let { smil, heart, likeUsers } = text; //结构出需要用的数据
-    smil += req.body.smil ? 1 : 0;
-    heart += req.body.heart ? 1 : 0;
-    likeUsers.push(req.userToken._id); //记录该用户点赞记录
+    if (text.likeUsers.some((userId) => userId === req.userToken._id)) {
+      smil += req.body.smil ? -1 : 0;
+      heart += req.body.heart ? -1 : 0;
+      likeUsers.forEach((userId, index) => {
+        if (userId === req.userToken._id) { //检查是否含有该msg信件
+          return likeUsers.splice(index, 1);
+        }
+      });
+    } else {
+      smil += req.body.smil ? 1 : 0;
+      heart += req.body.heart ? 1 : 0;
+      //如果没问题再去增加点赞数量,并且记录该用户点赞记录
+      likeUsers.push(req.userToken._id); //记录该用户点赞记录
+    }
     let newData = await RoarTextDB.findByIdAndUpdate(req.body.textId, {
       smil,
       heart,
