@@ -23,15 +23,15 @@ router.put(`/`, [auth], async (req, res) => {
           msg: `没找到该帖子,请检查后重试!`,
         });
     }
+    let { smil, heart, likeUsers } = text; //结构出需要用的数据
     //检查是否存在历史点赞记录
     //some此方法是将所有元素进行判断返回一个布尔值，如果存在元素都满足判断条件，
     //则返回true，若所有元素都不满足判断条件，则返回false
-    let { smil, heart, likeUsers } = text; //结构出需要用的数据
     if (text.likeUsers.some((userId) => userId === req.userToken._id)) {
-      smil += req.body.smil ? -1 : 0;
-      heart += req.body.heart ? -1 : 0;
+      smil += req.body.smil && req.body.smil > 0 ? -1 : 0;
+      heart += req.body.heart && req.body.heart > 0 ? -1 : 0;
       likeUsers.forEach((userId, index) => {
-        if (userId === req.userToken._id) { //检查是否含有该msg信件
+        if (userId === req.userToken._id) {
           return likeUsers.splice(index, 1);
         }
       });
@@ -47,7 +47,7 @@ router.put(`/`, [auth], async (req, res) => {
       likeUsers,
     }, { new: true });
     return res.status(200).send({
-      msg: "点赞成功",
+      msg: "成功",
       result: { smil: newData.smil, heart: newData.heart },
     });
   } catch (e) {
