@@ -81,8 +81,7 @@ const nameValidation = (data) => {
 const likesValidation = (data) => {
   const schema = Joi.object({
     textId: Joi.string().min(24).max(24).required(),
-    smil: Joi.boolean(),
-    heart: Joi.boolean(),
+    likeWho: Joi.string().min(4).max(5).required(),
   });
   return schema.validate(data);
 };
