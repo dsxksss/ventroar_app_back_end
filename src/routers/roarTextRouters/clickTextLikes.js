@@ -28,31 +28,33 @@ router.put(`/`, [auth], async (req, res) => {
     //则返回true，若所有元素都不满足判断条件，则返回false
 
     //检查是否存在历史笑脸点赞记录
-    if (smilLikeUsers.some((userId) => userId === req.userToken._id)) {
-      smil += req.body.likeWho === "smil" && smil > 0 ? -1 : 0;
-      smilLikeUsers.forEach((userId, index) => {
-        if (userId === req.userToken._id) {
-          return smilLikeUsers.splice(index, 1);
-        }
-      });
-    } else {
-      smil += req.body.likeWho === "smil" ? 1 : 0;
-      //如果没问题再去增加点赞数量,并且记录该用户点赞记录
-      smilLikeUsers.push(req.userToken._id); //记录该用户点赞记录
-    }
-
-    //检查是否存在历史爱心点赞记录
-    if (heartLikeUsers.some((userId) => userId === req.userToken._id)) {
-      heart += req.body.likeWho === "heart" && heart > 0 ? -1 : 0;
-      heartLikeUsers.forEach((userId, index) => {
-        if (userId === req.userToken._id) {
-          return heartLikeUsers.splice(index, 1);
-        }
-      });
-    } else {
-      heart += req.body.likeWho === "heart" ? 1 : 0;
-      //如果没问题再去增加点赞数量,并且记录该用户点赞记录
-      heartLikeUsers.push(req.userToken._id); //记录该用户点赞记录
+    if (req.body.likeWho === "smil") {
+      if (smilLikeUsers.some((userId) => userId === req.userToken._id)) {
+        smil += smil > 0 ? -1 : 0;
+        smilLikeUsers.forEach((userId, index) => {
+          if (userId === req.userToken._id) {
+            return smilLikeUsers.splice(index, 1);
+          }
+        });
+      } else {
+        smil += req.body.likeWho === "smil" ? 1 : 0;
+        //如果没问题再去增加点赞数量,并且记录该用户点赞记录
+        smilLikeUsers.push(req.userToken._id); //记录该用户点赞记录
+      }
+    } //检查是否存在历史爱心点赞记录
+    else if (req.body.likeWho === "heart") {
+      if (heartLikeUsers.some((userId) => userId === req.userToken._id)) {
+        heart += heart > 0 ? -1 : 0;
+        heartLikeUsers.forEach((userId, index) => {
+          if (userId === req.userToken._id) {
+            return heartLikeUsers.splice(index, 1);
+          }
+        });
+      } else {
+        heart += req.body.likeWho === "heart" ? 1 : 0;
+        //如果没问题再去增加点赞数量,并且记录该用户点赞记录
+        heartLikeUsers.push(req.userToken._id); //记录该用户点赞记录
+      }
     }
 
     let newData = await RoarTextDB.findByIdAndUpdate(req.body.textId, {
