@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "export LOCAL_SEND_MAIL_USERNAME=ventroar.xyz@qq.com&&export LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&&export LOCAL_JWT_KEY=dsxksss&&set LOCAL_JWT_KEYT=dsxk&&export LOCAL_RUN_MODE=production&&nodemon index.js",
+    "start": "export LOCAL_SEND_MAIL_USERNAME=ventroar.xyz@qq.com&&export LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&&export LOCAL_JWT_KEY=dsxksss&&export LOCAL_JWT_KEYT=dsxk&&export LOCAL_RUN_MODE=production&&nodemon index.js",
     "dev-win": "set LOCAL_SEND_MAIL_USERNAME=ventroar.xyz@qq.com&&set LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&&set LOCAL_JWT_KEY=dsxksss&&set LOCAL_JWT_KEYT=dsxk&&set LOCAL_RUN_MODE=development&&nodemon index.js",
     "dev-mac": "export LOCAL_SEND_MAIL_USERNAME=ventroar.xyz@qq.com&&export LOCAL_SEND_MAIL_PASSWORD=sklsiaedvgmedcjj&&export LOCAL_JWT_KEY=dsxksss&&export LOCAL_JWT_KEYT=dsxk&&export LOCAL_RUN_MODE=development&&nodemon index.js"
   },
