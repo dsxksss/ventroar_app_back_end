@@ -6,7 +6,10 @@ const fs = require("fs");
  * @return {multer.Multer}      result Multer实例
  */
 const upload = function (diskStorage) {
-  const result = multer({ storage: multer.diskStorage(diskStorage) });
+  const result = multer({
+    storage: multer.diskStorage(diskStorage),
+    limits: { fileSize: 100000 }, //10mb限制
+  });
   return result;
 };
 
