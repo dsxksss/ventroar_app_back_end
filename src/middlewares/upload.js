@@ -8,7 +8,7 @@ const fs = require("fs");
 const upload = function (diskStorage) {
   const result = multer({
     storage: multer.diskStorage(diskStorage),
-    limits: { fileSize: 500000 }, //10mb限制
+    limits: { fileSize: 5000000 }, //50mb限制
   });
   return result;
 };
