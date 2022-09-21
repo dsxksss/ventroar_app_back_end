@@ -5,10 +5,11 @@ const { upload, diskStorage } = require("../../middlewares/upload");
 const checkHasRoar = require("../../middlewares/checkHasRoar");
 const { RoarTextDB } = require("../../databases/roarTextDB");
 const { deleteFile, staticDir } = require("../../functions/deleteFile");
-const checkImagesUpload = upload(diskStorage.Img).array("images", 9);
+const MAX_IMAGE = 4; //只允许上传4张图片
+const checkImagesUpload = upload(diskStorage.Img).array("images", MAX_IMAGE);
 const router = express.Router();
 
-// 上传帖子图片路由(只允许上传4张图片);
+// 上传帖子图片路由;
 router.post(
   `/:roarTextId`,
   [auth, checkHasRoar],
@@ -18,9 +19,13 @@ router.post(
         if (typeof req.files === "undefined") {
           return res.status(400).send({ msg: "不能上传空内容,请检查后重试!" });
         } else if (err instanceof multer.MulterError) {
-          return res.status(400).send({ msg: "上传图片发生错误,最多只允许发送9张图片!" });
+          return res.status(400).send({
+            msg: `上传图片发生错误,最多只允许发送${MAX_IMAGE}张图片,或图片集大小不能超过50mb!`,
+          });
         } else if (err) {
-          return res.status(400).send({ msg: "上传图片发生错误,最多只允许发送9张图片!" });
+          return res.status(400).send({
+            msg: `上传图片发生错误,最多只允许发送${MAX_IMAGE}张图片,或图片集大小不能超过50mb!`,
+          });
         }
 
         if (req.text.userId !== req.userToken._id) {
