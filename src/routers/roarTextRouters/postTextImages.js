@@ -29,7 +29,7 @@ router.post(
         }
 
         if (req.text.userId !== req.userToken._id) {
-          return res.status(400).send({ msg: "你没有权限这么做!" });
+          return res.status(403).send({ msg: "你没有权限这么做!" });
         }
 
         //暂时存储旧照片集url

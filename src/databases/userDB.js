@@ -11,7 +11,7 @@ userSchema.methods.createUserToken = function () {
       name: this.name,
       avatarUrl: this.avatarUrl,
       isAdmin: this.isAdmin,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 3, //token失效时间为3天,
+      // exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 3, //token失效时间为3天,
     },
     config.get("jwtKey"),
   );

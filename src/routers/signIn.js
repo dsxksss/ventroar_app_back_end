@@ -14,7 +14,7 @@ router.post(PATHNAME, async (req, res) => {
     const { error } = signInValidation(req.body);
     if (error) {
       return res
-        .status(400) //客户端请求的语法错误，服务器无法理解
+        .status(400)
         .send({
           msg: `登录数据格式不正确 错误信息: ${error.details[0].message}`,
         });
@@ -25,7 +25,7 @@ router.post(PATHNAME, async (req, res) => {
       user = await UserDB.findOne({ name: req.body.account });
       if (!user) {
         return res
-          .status(404) //客户端请求的语法错误，服务器无法理解
+          .status(404)
           .send({ msg: `账号或密码不存在,请检查后重新登录!` });
       }
     }
