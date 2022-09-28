@@ -38,7 +38,7 @@ router.post(`/`, [auth], async (req, res) => {
     text.textComments = []; //初始化宣泄贴评论列表
 
     await text.save();
-    return res.status(200).send({ msg: "发帖成功,调整心态明天会更好的~" }); //注册成功后反馈给客户端一个头部token
+    return res.status(200).send({ msg: "发帖成功,调整心态明天会更好的~", result: text });
   } catch (e) {
     return res
       .status(408) //请求超时。客户端没有在服务器预备等待的时间内完成一个请求的发送。客户端可以随时再次提交这一请求而无需进行任何更改。
