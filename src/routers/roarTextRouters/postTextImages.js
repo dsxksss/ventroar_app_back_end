@@ -5,8 +5,25 @@ const { upload, diskStorage } = require("../../middlewares/upload");
 const checkHasRoar = require("../../middlewares/checkHasRoar");
 const { RoarTextDB } = require("../../databases/roarTextDB");
 const { deleteFile, staticDir } = require("../../functions/deleteFile");
-const MAX_IMAGE = 4; //只允许上传4张图片
-const checkImagesUpload = upload(diskStorage.Img).array("images", MAX_IMAGE);
+const checkImagesUpload = upload({
+  diskStorage: diskStorage.Img,
+  //文件大小设置
+  limits: {
+    files: 4, // 最多允许发送1个文件,
+    fileSize: 50 * 1024 * 1024, //50mb限制
+  },
+  //过滤文件设置
+  fileFilter: (__req, file, cb) => {
+    // 只允许发送图像文件
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+      return cb(
+        new multer.MulterError("LIMIT_UNEXPECTED_FILE", "只接收图片文件!!!"),
+        false,
+      );
+    }
+    cb(null, true);
+  },
+}).array("images");
 const router = express.Router();
 
 // 上传帖子图片路由;
@@ -16,16 +33,20 @@ router.post(
   async (req, res) => {
     try {
       checkImagesUpload(req, res, async function (err) {
-        if (typeof req.files === "undefined") {
-          return res.status(400).send({ msg: "不能上传空内容,请检查后重试!" });
-        } else if (err instanceof multer.MulterError) {
-          return res.status(400).send({
-            msg: `上传图片发生错误,最多只允许发送${MAX_IMAGE}张图片,或图片集大小不能超过50mb!`,
-          });
+        if (err instanceof multer.MulterError) {
+          if (err.code === "LIMIT_FILE_COUNT") {
+            return res.status(400).send({ msg: "上传图片超过数量,最多只允许接收4张图片!" });
+          } else if (err.code === "LIMIT_FILE_SIZE") {
+            return res.status(400).send({ msg: `图片集大小不能超过50mb!` });
+          } else {
+            return res.status(400).send({ msg: `上传图片时发生错误! ${err.field}` });
+          }
         } else if (err) {
-          return res.status(400).send({
-            msg: `上传图片发生错误,最多只允许发送${MAX_IMAGE}张图片,或图片集大小不能超过50mb!`,
-          });
+          return res.status(400).send({ msg: `上传图片时发生其他错误! ${err}` });
+        }
+
+        if (req.files === undefined || req.files.length <= 0) {
+          return res.status(400).send({ msg: "不能上传空内容,请检查后重试!" });
         }
 
         if (req.text.userId !== req.userToken._id) {
@@ -43,7 +64,7 @@ router.post(
           }
         }
 
-        let newText = await RoarTextDB.findByIdAndUpdate(
+        const newText = await RoarTextDB.findByIdAndUpdate(
           req.params.roarTextId,
           { textImages: req.text.textImages },
           { new: true },

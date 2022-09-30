@@ -5,10 +5,13 @@ const fs = require("fs");
  * @param {string}      diskStorage 存储模板
  * @return {multer.Multer}      result Multer实例
  */
-const upload = function (diskStorage) {
+const upload = function ({ diskStorage, limits, fileFilter }) {
   const result = multer({
     storage: multer.diskStorage(diskStorage),
-    limits: { fileSize: 50000000 }, //50mb限制
+    //文件大小限制设置
+    limits: limits ?? null,
+    //过滤文件设置
+    fileFilter: fileFilter ?? null,
   });
   return result;
 };
