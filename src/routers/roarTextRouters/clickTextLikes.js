@@ -65,7 +65,12 @@ router.put(`/`, [auth], async (req, res) => {
     }, { new: true });
     return res.status(200).send({
       msg: "成功",
-      result: { smil: newData.smil, heart: newData.heart },
+      result: {
+        smil: newData.smil,
+        heart: newData.heart,
+        smilLikeUsers: newData.smilLikeUsers,
+        heartLikeUsers: newData.heartLikeUsers,
+      },
     });
   } catch (e) {
     return res
