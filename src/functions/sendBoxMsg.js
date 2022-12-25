@@ -15,26 +15,41 @@ const MsgType = {
   addFriend: "addFriend", //好友申请通知
 };
 
+// async function sendBoxMsg({ msg, isRead = false, msgType, friendId = "null" }) {
+//   if (msgType === MsgType.addFriend) {
+//     this.push({
+//       msg,
+//       msgType,
+//       isRead,
+//       friendId,
+//       isAgree: false,
+//       _id: mongoose.Types.ObjectId(),
+//       date: Math.round(new Date() / 1000),
+//     }); //信件创建时间
+//   } else {
+//     this.push({
+//       msg,
+//       msgType,
+//       isRead,
+//       _id: mongoose.Types.ObjectId(),
+//       date: Math.round(new Date() / 1000),
+//     }); //信
+//   }
+// }
+
 async function sendBoxMsg({ msg, isRead = false, msgType, friendId = "null" }) {
+  let data = {
+    msg,
+    msgType,
+    isRead,
+    _id: mongoose.Types.ObjectId(),
+    date: Math.round(new Date() / 1000),
+  };
   if (msgType === MsgType.addFriend) {
-    this.push({
-      msg,
-      msgType,
-      isRead,
-      friendId,
-      isAgree: false,
-      _id: mongoose.Types.ObjectId(),
-      date: Math.round(new Date() / 1000),
-    }); //信件创建时间
-  } else {
-    this.push({
-      msg,
-      msgType,
-      isRead,
-      _id: mongoose.Types.ObjectId(),
-      date: Math.round(new Date() / 1000),
-    }); //信
+    data.friendId = friendId;
+    data.isAgree = false;
   }
+  this.push(data);
 }
 
 exports.sendBoxMsg = sendBoxMsg;

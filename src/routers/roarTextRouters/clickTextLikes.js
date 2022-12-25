@@ -29,17 +29,31 @@ router.put(`/`, [auth], async (req, res) => {
 
     //检查是否存在历史笑脸点赞记录
     if (req.body.likeWho === "smil") {
-      if (smilLikeUsers.some((userId) => userId === req.userToken._id)) {
+
+      // 优化前
+      // if (smilLikeUsers.some((userId) => userId === req.userToken._id)) {
+      //   smil += smil > 0 ? -1 : 0;
+      //   smilLikeUsers.forEach((userId, index) => {
+      //     if (userId === req.userToken._id) {
+      //       return smilLikeUsers.splice(index, 1);
+      //     }
+      //   });
+      // } else {
+      //   smil += req.body.likeWho === "smil" ? 1 : 0;
+      //   //如果没问题再去增加点赞数量,并且记录该用户点赞记录
+      //   smilLikeUsers.push(req.userToken._id); //记录该用户点赞记录
+      // }
+
+      // 优化后
+      let smilUserIndex = smilLikeUsers.findIndex((userId) =>
+        userId === req.userToken._id
+      );
+      if (smilUserIndex !== -1) {
         smil += smil > 0 ? -1 : 0;
-        smilLikeUsers.forEach((userId, index) => {
-          if (userId === req.userToken._id) {
-            return smilLikeUsers.splice(index, 1);
-          }
-        });
+        smilLikeUsers.splice(smilUserIndex, 1);
       } else {
         smil += req.body.likeWho === "smil" ? 1 : 0;
-        //如果没问题再去增加点赞数量,并且记录该用户点赞记录
-        smilLikeUsers.push(req.userToken._id); //记录该用户点赞记录
+        smilLikeUsers.push(req.userToken._id);
       }
     } //检查是否存在历史爱心点赞记录
     else if (req.body.likeWho === "heart") {

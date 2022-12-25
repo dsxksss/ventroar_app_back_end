@@ -24,60 +24,100 @@ let HASCONFIGF_ERROR_NAME = []; //缺少的配置文件变量名字
 //配置信息如果缺少的话强制退出程序
 //检查必要的环境变量
 const HASENV = () => {
-  if (!config.has("runMode")) {
-    HASENV_ERROR_NAME.push("runMode");
+  // 优化前
+  // if (!config.has("runMode")) {
+  //   HASENV_ERROR_NAME.push("runMode");
+  // }
+  // if (!config.has("jwtKey")) {
+  //   HASENV_ERROR_NAME.push("jwtKey");
+  // }
+  // if (!config.has("jwtKeyT")) {
+  //   HASENV_ERROR_NAME.push("jwtKeyT");
+  // }
+  // if (!config.has("sendMailUserName")) {
+  //   HASENV_ERROR_NAME.push("sendMailUserName");
+  // }
+  // if (!config.has("sendMailPassword")) {
+  //   HASENV_ERROR_NAME.push("sendMailPassword");
+  // }
+  // const result = !config.has("runMode") || //启动模式(development and production)
+  //   !config.has("jwtKey") || //jwtTokenKey
+  //   !config.has("jwtKeyT") || //jwtTokenKey
+  //   !config.has("sendMailUserName") || //邮箱发送服务的邮箱账号
+  //   !config.has("sendMailPassword"); //邮箱发送服务的邮箱密码
+
+  // 优化后
+  const requiredConfigs = [
+    "runMode",
+    "jwtKey",
+    "jwtKeyT",
+    "sendMailUserName",
+    "sendMailPassword",
+  ];
+  const result = requiredConfigs.some((configName) => !config.has(configName));
+  if (result) {
+    requiredConfigs.forEach((configName) => {
+      if (!config.has(configName)) HASENV_ERROR_NAME.push(configName);
+    });
   }
-  if (!config.has("jwtKey")) {
-    HASENV_ERROR_NAME.push("jwtKey");
-  }
-  if (!config.has("jwtKeyT")) {
-    HASENV_ERROR_NAME.push("jwtKeyT");
-  }
-  if (!config.has("sendMailUserName")) {
-    HASENV_ERROR_NAME.push("sendMailUserName");
-  }
-  if (!config.has("sendMailPassword")) {
-    HASENV_ERROR_NAME.push("sendMailPassword");
-  }
-  const result = !config.has("runMode") || //启动模式(development and production)
-    !config.has("jwtKey") || //jwtTokenKey
-    !config.has("jwtKeyT") || //jwtTokenKey
-    !config.has("sendMailUserName") || //邮箱发送服务的邮箱账号
-    !config.has("sendMailPassword"); //邮箱发送服务的邮箱密码
   return result;
 };
 
 //检查配置文件信息
 const HASCONFIGF = () => {
-  if (!config.has("sendMailConfig.senderName")) {
-    HASCONFIGF_ERROR_NAME.push("sendMailConfig.senderName");
-  }
-  if (!config.has("sendMailConfig.host")) {
-    HASCONFIGF_ERROR_NAME.push("sendMailConfig.host");
-  }
-  if (!config.has("sendMailConfig.port")) {
-    HASCONFIGF_ERROR_NAME.push("sendMailConfig.port");
-  }
-  if (!config.has("dbConfig.debugDbConfig.host")) {
-    HASCONFIGF_ERROR_NAME.push("dbConfig.debugDbConfig.host");
-  }
-  if (!config.has("dbConfig.debugDbConfig.port")) {
-    HASCONFIGF_ERROR_NAME.push("dbConfig.debugDbConfig.port");
-  }
-  if (!config.has("dbConfig.releaseDbConfig.host")) {
-    HASCONFIGF_ERROR_NAME.push("dbConfig.releaseDbConfig.host");
-  }
-  if (!config.has("dbConfig.releaseDbConfig.port")) {
-    HASCONFIGF_ERROR_NAME.push("dbConfig.releaseDbConfig.port");
-  }
-
-  const result = !config.has("sendMailConfig.senderName") || //邮箱发送者名字
-    !config.has("sendMailConfig.host") || //邮件服务的服务方地址
-    !config.has("sendMailConfig.port") || //邮件服务的服务方端口
-    !config.has("dbConfig.debugDbConfig.host") || //debug运行环境下的host
-    !config.has("dbConfig.debugDbConfig.port") || //debug运行环境下的port
-    !config.has("dbConfig.releaseDbConfig.host") || //release运行环境下的host
-    !config.has("dbConfig.releaseDbConfig.port"); //release运0行环境下的port
+  // 优化前
+  // if (!config.has("sendMailConfig.senderName")) {
+  //   HASCONFIGF_ERROR_NAME.push("sendMailConfig.senderName");
+  // }
+  // if (!config.has("sendMailConfig.host")) {
+  //   HASCONFIGF_ERROR_NAME.push("sendMailConfig.host");
+  // }
+  // if (!config.has("sendMailConfig.port")) {
+  //   HASCONFIGF_ERROR_NAME.push("sendMailConfig.port");
+  // }
+  // if (!config.has("dbConfig.debugDbConfig.host")) {
+  //   HASCONFIGF_ERROR_NAME.push("dbConfig.debugDbConfig.host");
+  // }
+  // if (!config.has("dbConfig.debugDbConfig.port")) {
+  //   HASCONFIGF_ERROR_NAME.push("dbConfig.debugDbConfig.port");
+  // }
+  // if (!config.has("dbConfig.releaseDbConfig.host")) {
+  //   HASCONFIGF_ERROR_NAME.push("dbConfig.releaseDbConfig.host");
+  // }
+  // if (!config.has("dbConfig.releaseDbConfig.port")) {
+  //   HASCONFIGF_ERROR_NAME.push("dbConfig.releaseDbConfig.port");
+  // }
+  // const result = !config.has("sendMailConfig.senderName") || //邮箱发送者名字
+  //   !config.has("sendMailConfig.host") || //邮件服务的服务方地址
+  //   !config.has("sendMailConfig.port") || //邮件服务的服务方端口
+  //   !config.has("dbConfig.debugDbConfig.host") || //debug运行环境下的host
+  //   !config.has("dbConfig.debugDbConfig.port") || //debug运行环境下的port
+  //   !config.has("dbConfig.releaseDbConfig.host") || //release运行环境下的host
+  //   !config.has("dbConfig.releaseDbConfig.port"); //release运0行环境下的port
+  
+  // 优化后
+  const configNames = [
+    "sendMailConfig.senderName",
+    "sendMailConfig.host",
+    "sendMailConfig.port",
+    "dbConfig.debugDbConfig.host",
+    "dbConfig.debugDbConfig.port",
+    "dbConfig.releaseDbConfig.host",
+    "dbConfig.releaseDbConfig.port",
+  ];
+  configNames.forEach((name) => {
+    if (!config.has(name)) HASCONFIGF_ERROR_NAME.push(name);
+  });
+  const configKeys = [
+    "sendMailConfig.senderName",
+    "sendMailConfig.host",
+    "sendMailConfig.port",
+    "dbConfig.debugDbConfig.host",
+    "dbConfig.debugDbConfig.port",
+    "dbConfig.releaseDbConfig.host",
+    "dbConfig.releaseDbConfig.port",
+  ];
+  const result = configKeys.some((key) => !config.has(key));
   return result;
 };
 
