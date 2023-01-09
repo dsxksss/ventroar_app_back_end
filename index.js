@@ -1,124 +1,21 @@
 //第三方库
 const express = require("express"); //express框架
-const mongoose = require("mongoose"); //操纵MongoDB数据库的库
 const cors = require("cors"); //处理本地调试跨域问题
 const morgan = require("morgan"); //morgan是一个记录http请求日志的中间件
-const config = require("config"); //读取配置文件信息库
 const fs = require("fs"); //node自带的文件读取,这里用于https证书的读取
 const path = require("path"); //node自带的路径处理库
-const https = require("https"); //创建https监听
-const http = require("http"); //创建http监听
+const checkCofing = require("./src/functions/checkConfig");
+const dbInit = require("./src/databases/dbInit");
 const { sendBoxMsg } = require("./src/functions/sendBoxMsg");
 
-//全局变量
+// 启动服务前先监测必要的配置信息是否存在
+checkCofing();
+
 //在array对象的原型上添加此函数,使全部array对象都可以使用此方法
 Array.prototype.sendBoxMsg = sendBoxMsg;
-const DEBUG_HOST = config.get("dbConfig.debugDbConfig.host");
-const DEBUG_PORT = config.get("dbConfig.debugDbConfig.port");
-const RELEASE_HOST = config.get("dbConfig.releaseDbConfig.host");
-const RELEASE_PORT = config.get("dbConfig.releaseDbConfig.port");
 const app = express();
-let HASENV_ERROR_NAME = []; //缺少的环境变量名字
-let HASCONFIGF_ERROR_NAME = []; //缺少的配置文件变量名字
 
-//配置信息如果缺少的话强制退出程序
-//检查必要的环境变量
-const HASENV = () => {
-  const requiredConfigs = [
-    "runMode", //启动模式(development and production)
-    "jwtKey",
-    "jwtKeyT",
-    "sendMailUserName", //邮箱发送服务的邮箱账号
-    "sendMailPassword", //邮箱发送服务的邮箱密码
-  ];
-  const result = requiredConfigs.some((configName) => !config.has(configName));
-  if (result) {
-    requiredConfigs.forEach((configName) => {
-      if (!config.has(configName)) HASENV_ERROR_NAME.push(configName);
-    });
-  }
-  return result;
-};
-
-//检查配置文件信息
-const HASCONFIGF = () => {
-  const configNames = [
-    "sendMailConfig.senderName",
-    "sendMailConfig.host",
-    "sendMailConfig.port",
-    "dbConfig.debugDbConfig.host",
-    "dbConfig.debugDbConfig.port",
-    "dbConfig.releaseDbConfig.host",
-    "dbConfig.releaseDbConfig.port",
-  ];
-  configNames.forEach((name) => {
-    if (!config.has(name)) HASCONFIGF_ERROR_NAME.push(name);
-  });
-  const configKeys = [
-    "sendMailConfig.senderName", //邮箱发送者名字
-    "sendMailConfig.host", //邮件服务的服务方地址
-    "sendMailConfig.port", //邮件服务的服务方端口
-    "dbConfig.debugDbConfig.host", //debug运行环境下的host
-    "dbConfig.debugDbConfig.port", //debug运行环境下的port
-    "dbConfig.releaseDbConfig.host", //release运行环境下的host
-    "dbConfig.releaseDbConfig.port", //release运0行环境下的port
-  ];
-  const result = configKeys.some((key) => !config.has(key));
-  return result;
-};
-
-if (HASENV()) {
-  console.log(`缺少所需的环境变量[${HASENV_ERROR_NAME}],请初始化环境变量再次启动服务...`);
-  process.exit(1);
-}
-
-if (HASCONFIGF()) {
-  console.log(`配置文件default.json属性值[${HASCONFIGF_ERROR_NAME}],请检查配置文件再次启动服务...`);
-  process.exit(1);
-}
-
-if (
-  config.get("runMode") !== "development" &&
-  config.get("runMode") !== "production"
-) {
-  console.log(`环境变量[runMode],配置不正确,只能为development或production`);
-  process.exit(1);
-}
-
-//MongoDB数据库连接
-mongoose
-  //先连接这个数据库表
-  //如果没有的话就创建这个表
-  .connect("mongodb://localhost/VentRoarAppApi")
-  .then(() => console.log("Connect DataBase...... OK"))
-  .catch((err) => {
-    console.log(`Could not connect to dataBase [ ${err} ] !!!`);
-  });
-
-if (config.get("runMode") === "development") {
-  //适合测试模式用的端口(default:2547)
-  http
-    .createServer(app)
-    .listen(config.get("dbConfig.debugDbConfig.port"), () => {
-      console.log(`localhost Server listening at ${DEBUG_HOST}:${DEBUG_PORT}/`);
-    });
-}
-
-if (config.get("runMode") === "production") {
-  //开启https需要安全key文件
-  //读取安全keyfile
-  const keyfile = {
-    key: fs.readFileSync("ventroar.xyz.key"),
-    cert: fs.readFileSync("ventroar.xyz_bundle.crt"),
-  };
-  //适合开发模式用的端口(default:2548)
-  https
-    .createServer(keyfile, app)
-    .listen(
-      config.get("dbConfig.releaseDbConfig.port"),
-      () => console.log(`Server listening at ${RELEASE_HOST}:${RELEASE_PORT}/`),
-    );
-}
+dbInit(app);
 
 //导入注册路由
 const signIn = require("./src/routers/signIn");
